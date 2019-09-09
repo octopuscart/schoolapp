@@ -16,6 +16,32 @@ class CMS extends CI_Controller {
         $this->user_id = $this->session->userdata('logged_in')['login_id'];
         $this->user_type = $this->session->logged_in['user_type'];
     }
+    
+    
+     function uploadFile() {
+        $config['upload_path'] = 'assets/schoolfiles';
+        $config['allowed_types'] = '*';
+        //$tableid = $this->post('file_table_id');
+        $tempfilename = rand(10000, 1000000);
+        print_r($_POST);
+        $tempfilename = "" . $tempfilename . $tableid;
+        $ext2 = explode('.', $_FILES['file']['name']);
+        $ext3 = strtolower(end($ext2));
+        $ext22 = explode('.', $tempfilename);
+        $ext33 = strtolower(end($ext22));
+        $filename = $ext22[0];
+        $file_newname = $filename . '.' . $ext3;
+        $config['file_name'] = $file_newname;
+        //Load upload library and initialize configuration
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('file')) {
+            $uploadData = $this->upload->data();
+            print_r($uploadData);
+            // $file_newname = $uploadData['file_name'];
+            //$this->db->set('file_name', $file_newname);
+        }
+    }
 
     public function blogCategories() {
         $data = array();

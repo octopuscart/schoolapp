@@ -43,6 +43,15 @@ class MobileApi extends REST_Controller {
         $this->response($classData);
     }
 
+    function deleteTableData_post() {
+        $this->config->load('rest', TRUE);
+        $tablename = $this->post('tablename');
+        $id = $this->post('id');
+        $this->db->where('id', $id); //set column_name and value in which row need to update
+        $this->db->delete($tablename);
+        $this->response(array("status" => "1"));
+    }
+
     function uploadFile_post() {
         $config['upload_path'] = 'assets/schoolfiles';
         $config['allowed_types'] = '*';
@@ -256,16 +265,16 @@ class MobileApi extends REST_Controller {
             "description" => "Description Of Test News.",
             "main_image" => base_url() . "assets/gallary/" . "1.jpg",
             "images1" => [
-                base_url() . "assets/gallary/" . "1.jpg",
-                base_url() . "assets/gallary/" . "2.jpg",
-                base_url() . "assets/gallary/" . "3.jpg",
-                base_url() . "assets/gallary/" . "4.jpg",
+                array("img" => base_url() . "assets/gallary/" . "1.jpg", "index" => 0),
+                array("img" => base_url() . "assets/gallary/" . "2.jpg", "index" => 1),
+                array("img" => base_url() . "assets/gallary/" . "3.jpg", "index" => 2),
+                array("img" => base_url() . "assets/gallary/" . "4.jpg", "index" => 3),
             ],
             "images2" => [
-                base_url() . "assets/gallary/" . "5.jpg",
-                base_url() . "assets/gallary/" . "6.jpg",
-                base_url() . "assets/gallary/" . "7.jpg",
-                base_url() . "assets/gallary/" . "8.jpg",
+                array("img" => base_url() . "assets/gallary/" . "5.jpg", "index" => 4),
+                array("img" => base_url() . "assets/gallary/" . "6.jpg", "index" => 5),
+                array("img" => base_url() . "assets/gallary/" . "7.jpg", "index" => 6),
+                array("img" => base_url() . "assets/gallary/" . "8.jpg", "index" => 7),
             ],
             "datetime" => date("Y-m-d H:i:s a"),
         );
@@ -430,11 +439,24 @@ class MobileApi extends REST_Controller {
         return $attenArray;
     }
 
+    function getAttendanceByStudent_get($student_id) {
+        $this->config->load('rest', TRUE);
+        $this->db->where('student_id', $student_id);
+//        $this->db->where('at_date', $date); //Here sould be year wise attandance
+        $query = $this->db->get('student_attendance');
+        $attendata = $query->result_array();
+        $this->response($attendata);
+    }
+
     function getClassStudentsAttendance_get($classid) {
         $this->config->load('rest', TRUE);
         $userData = $this->ClassStudents($classid);
         $datetoday = date("Y-m-d");
+        $attendancestatus = "0";
         $attendanceArray = $this->getAttendanceByDate($classid, $datetoday);
+        if ($attendanceArray) {
+            $attendancestatus = "1";
+        }
 
         $studentdata = [];
         foreach ($userData as $key => $value) {
@@ -447,8 +469,7 @@ class MobileApi extends REST_Controller {
 
             array_push($studentdata, $value);
         }
-       
-        $this->response($studentdata);
+        $this->response(array("students" => $studentdata, "attendancestatus" => $attendancestatus));
     }
 
     function classAttendanceTake_post() {
@@ -462,11 +483,11 @@ class MobileApi extends REST_Controller {
         $datetoday = date("Y-m-d");
         $attendanceArray = $this->getAttendanceByDate($class_id, $datetoday);
         foreach ($studetn_array as $key => $value) {
-            
+
             $states_student = explode("_", $value);
-            $ids = isset($attendanceArray[ $states_student[1]])? $attendanceArray[ $states_student[1]]['id']:0;
+            $ids = isset($attendanceArray[$states_student[1]]) ? $attendanceArray[$states_student[1]]['id'] : 0;
             $indertArray = array(
-                "id"=>$ids,
+                "id" => $ids,
                 "class" => $class,
                 "class_id" => $class_id,
                 "student_id" => $states_student[1],
@@ -476,12 +497,51 @@ class MobileApi extends REST_Controller {
                 "section" => $section,
                 "taken_by" => $taken_by,
             );
-            
+
             $this->db->replace('student_attendance', $indertArray);
         }
 
 
         $this->response(array("status" => "1"));
+    }
+
+    //circular data
+    function getMessageData_get($userid) {
+        $this->config->load('rest', TRUE);
+//        $this->db->where('status', '1');
+        $this->db->where('reply_id', "0");
+        $this->db->where('user_id', $userid);
+        $this->db->order_by('id desc');
+        $query = $this->db->get('school_message');
+        $MessageData = $query->result();
+
+        $messageListData = [];
+        foreach ($MessageData as $key => $value) {
+            $this->db->where('reply_id', $value->id);
+            $this->db->order_by('id desc');
+            $query = $this->db->get('school_message');
+            $replyData = $query->result();
+            $value->replydata = $replyData;
+        }
+        $this->response($MessageData);
+    }
+
+    function message_post() {
+        $this->config->load('rest', TRUE);
+        // $tempfilename = rand(100, 1000000);
+        $replyid = $this->post('reply_id');
+        $replyid = $replyid ? $replyid : "0";
+        $class_notes = array(
+            'title' => $this->post('title'),
+            'description' => $this->post('description'),
+            "datetime" => date("Y-m-d H:i:s a"),
+            'user_id' => $this->post('user_id'),
+            'status' => "0",
+            'reply_id' => $replyid,
+        );
+        $this->db->insert('school_message', $class_notes);
+        $last_id = $this->db->insert_id();
+        $this->response(array("last_id" => $last_id));
     }
 
 }

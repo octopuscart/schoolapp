@@ -105,9 +105,9 @@ class MobileApi extends REST_Controller {
 //        $this->db->where('status', '1');
         $this->db->where('class_id', $class_id);
         $this->db->order_by('id desc');
-        $query = $this->db->get('class_assignment');
-        $assignmentData = $query->result();
-        $this->response($assignmentData);
+        $query = $this->db->get('class_notes');
+        $classnoteData = $query->result();
+        $this->response($classnoteData);
     }
 
     function getClassNoteData_get($userid) {
@@ -121,7 +121,6 @@ class MobileApi extends REST_Controller {
     }
 
     // End of Class Note functions
-    // 
     //Assignment Functions
     function getAssignmentDataByClass_get($class_id) {
         $this->config->load('rest', TRUE);
@@ -213,7 +212,8 @@ class MobileApi extends REST_Controller {
         $CircularData = $query->result();
         $this->response($CircularData);
     }
-   //    end of circular data
+
+    //    end of circular data
 
     function getNewsData_get() {
         $this->config->load('rest', TRUE);
@@ -285,9 +285,12 @@ class MobileApi extends REST_Controller {
         }
     }
 
-    function getUserDataFromId_post() {
+    function getUserDataFromId_post($user_type = "") {
         $this->config->load('rest', TRUE);
         $user_id = $this->post('user_id');
+        if ($user_type == 'student') {
+            $this->db->where('user_type', "student");
+        }
         $this->db->where('userid', $user_id);
         $this->db->order_by('name asc');
         $query = $this->db->get('school_user');
@@ -301,38 +304,184 @@ class MobileApi extends REST_Controller {
         $this->response($returndata);
     }
 
-    function getClassStudents_get($classid) {
-        $this->config->load('rest', TRUE);
+    function ClassStudents($classid) {
 //        $this->db->where('status', '1');
         $this->db->where('class_id', $classid);
         $this->db->where('user_type', "student");
         $this->db->order_by('name asc');
         $query = $this->db->get('school_user');
         $userData = $query->result();
+        return $userData;
+    }
+
+    function getClassStudents_get($classid) {
+        $this->config->load('rest', TRUE);
+        $userData = $this->ClassStudents($classid);
         $this->response($userData);
+    }
+
+    //set child to parent
+    function getChildToParent_get($parent_id) {
+        $this->config->load('rest', TRUE);
+        $this->db->where('parent_id', $parent_id);
+        $this->db->where('user_type', "student");
+        $this->db->order_by('name asc');
+        $query = $this->db->get('school_user');
+        $userData = $query->result();
+        $userDataF = array();
+        foreach ($userData as $key => $value) {
+            $userDataF[$value->userid] = $value;
+        }
+        $this->response($userDataF);
+    }
+
+    function setChildToParent_post() {
+        $this->config->load('rest', TRUE);
+        $parent_id = $this->post('parent_id');
+        $child_id = $this->post('child_id');
+        $this->db->set('parent_id', $parent_id);
+        $this->db->where('userid', $child_id); //set column_name and value in which row need to update
+        $this->db->update("school_user");
+        $this->response(array("status" => "1"));
+    }
+
+    function unsetChildToParent_post() {
+        $this->config->load('rest', TRUE);
+        $parent_id = $this->post('parent_id');
+        $child_id = $this->post('child_id');
+        $this->db->set('parent_id', "");
+        $this->db->where('userid', $child_id); //set column_name and value in which row need to update
+        $this->db->update("school_user");
+        $this->response(array("status" => "1"));
+    }
+
+    //Leave Request Functrions  
+    function setLeaveRequest_post() {
+        $this->config->load('rest', TRUE);
+        $lrdata = array(
+            "from_date" => $this->post('from_date'),
+            "to_date" => $this->post('to_date'),
+            "reason" => $this->post('reason'),
+            "parent_id" => $this->post('parent_id'),
+            "student_id" => $this->post('selectChild'),
+            "class_id" => $this->post('class_id'),
+            "status" => "0",
+            "datetime" => date("Y-m-d H:i:s a"),
+        );
+        $this->db->insert('student_leave_request', $lrdata);
+        $this->response(array("status" => "1"));
     }
 
     function getLeaveRequestByClass_get($classid) {
         $this->config->load('rest', TRUE);
-        $user_array = array(
-            "S300001" => array(
-                "userid" => "S300001",
-                "name" => "Ayushi Mourya",
-                "gender" => "Female",
-                "from_date" => "2019-09-07",
-                "to_date" => "2019-09-08",
-                "reason" => "Health Issue",
-            ),
-            "S200001" => array(
-                "userid" => "S200001",
-                "name" => "Piyush Jayshwal",
-                "gender" => "Male",
-                "from_date" => "2019-09-10",
-                "to_date" => "2019-09-12",
-                "reason" => "Health Issue",
-            ),
-        );
-        $this->response($user_array);
+        $this->db->select('slr.*, su.name, su.class_id, su.class, su.section, su.gender');
+//        $this->db->where('slr.status', '0');
+        $this->db->where('slr.class_id', $classid);
+        $this->db->order_by('slr.id desc');
+        $this->db->from('student_leave_request as slr');
+        $this->db->join('school_user as su', 'su.userid = slr.student_id', 'LEFT');
+        $query = $this->db->get();
+        $userData = $query->result_array();
+        $this->response($userData);
+    }
+
+    function getLeaveRequestByParent_get($parentid) {
+        $this->config->load('rest', TRUE);
+        $this->db->select('slr.*, su.name, su.class_id, su.class, su.section, su.gender');
+        //        $this->db->where('status', '1');
+        $this->db->where('slr.parent_id', $parentid);
+        $this->db->order_by('slr.id desc');
+        $this->db->from('student_leave_request as slr');
+        $this->db->join('school_user as su', 'su.userid = slr.student_id', 'LEFT');
+        $query = $this->db->get();
+        $userData = $query->result_array();
+        $this->response($userData);
+    }
+
+    function updateLeaveRequest_post() {
+        $this->config->load('rest', TRUE);
+        $teacher_id = $this->post('user_id');
+        $lrid = $this->post('lrid');
+        $this->db->set('status', "1");
+        $this->db->set('approve_by', $teacher_id);
+        $this->db->where('id', $lrid); //set column_name and value in which row need to update
+        $this->db->update("student_leave_request");
+        $this->response(array("status" => "1"));
+    }
+
+    function removeLeaveRequest_post() {
+        $this->config->load('rest', TRUE);
+        $lrid = $this->post('lrid');
+        $this->db->where('id', $lrid); //set column_name and value in which row need to update
+        $this->db->delete("student_leave_request");
+        $this->response(array("status" => "1"));
+    }
+
+    //attendance function
+    function getAttendanceByDate($class_id, $date) {
+        $this->db->where('class_id', $class_id);
+        $this->db->where('at_date', $date);
+        $query = $this->db->get('student_attendance');
+        $attendata = $query->result_array();
+        $attenArray = array();
+        foreach ($attendata as $key => $value) {
+            $attenArray[$value['student_id']] = $value;
+        }
+        return $attenArray;
+    }
+
+    function getClassStudentsAttendance_get($classid) {
+        $this->config->load('rest', TRUE);
+        $userData = $this->ClassStudents($classid);
+        $datetoday = date("Y-m-d");
+        $attendanceArray = $this->getAttendanceByDate($classid, $datetoday);
+
+        $studentdata = [];
+        foreach ($userData as $key => $value) {
+            if (isset($attendanceArray[$value->userid])) {
+                $atnobj = $attendanceArray[$value->userid];
+                $value->attendance = $atnobj['status'];
+            } else {
+                $value->attendance = "P";
+            }
+
+            array_push($studentdata, $value);
+        }
+       
+        $this->response($studentdata);
+    }
+
+    function classAttendanceTake_post() {
+        $this->config->load('rest', TRUE);
+        $class_id = $this->post("class_id");
+        $class = $this->post("class");
+        $section = $this->post("section");
+        $taken_by = $this->post("taken_by");
+        $students = $this->post("students");
+        $studetn_array = explode(",", $students);
+        $datetoday = date("Y-m-d");
+        $attendanceArray = $this->getAttendanceByDate($class_id, $datetoday);
+        foreach ($studetn_array as $key => $value) {
+            
+            $states_student = explode("_", $value);
+            $ids = isset($attendanceArray[ $states_student[1]])? $attendanceArray[ $states_student[1]]['id']:0;
+            $indertArray = array(
+                "id"=>$ids,
+                "class" => $class,
+                "class_id" => $class_id,
+                "student_id" => $states_student[1],
+                "datetime" => date("Y-m-d H:i:s a"),
+                "at_date" => $datetoday,
+                "status" => $states_student[0],
+                "section" => $section,
+                "taken_by" => $taken_by,
+            );
+            
+            $this->db->replace('student_attendance', $indertArray);
+        }
+
+
+        $this->response(array("status" => "1"));
     }
 
 }

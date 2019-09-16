@@ -17,6 +17,13 @@ class RequestData extends CI_Controller {
         $this->user_type = $this->session->logged_in['user_type'];
     }
 
+     function classAllData() {
+         $unseenData = $this->School_model->unseenClassData();
+         $data["geturl"] = site_url("LocalApi/classData");
+         $this->load->view('requestData/listall', $data);
+     }
+    
+    
     function classAssignmentData() {
         $date1 = date('Y-m-') . "01";
         $date2 = date('Y-m-d');
@@ -67,7 +74,7 @@ class RequestData extends CI_Controller {
         $daterange = $date1 . " to " . $date2;
         $data["title"] = "Class Notes";
         $data["tablename"] = "class_notes";
-        $data["fileicon"] = "classnotice.svg";
+        $data["fileicon"] = "circular.svg";
         $data["showclass"] = 1;
         $data["geturl"] = site_url("LocalApi/classData");
         $data['daterange'] = $daterange;

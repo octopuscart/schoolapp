@@ -2,22 +2,25 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
     $scope.resultData = {"tablename": gbltablename, "url": gblurl, "status": "0", "list": []};
     $scope.getData = function () {
         $scope.resultData.status = '1';
+        $scope.checkUnseenData();
         $http.get($scope.resultData.url + "/" + gbltablename).then(function (resultdata) {
             $scope.resultData.status = '0';
             $scope.resultData.list = resultdata.data;
+            
         }, function () {
             $scope.resultData.status = '0';
         });
     }
 
-    $scope.approveData = function (post_id) {
+
+    $scope.approveData = function (post_id, tablename) {
         Swal.fire({
             title: 'Prcessing...',
             onBeforeOpen: () => {
                 Swal.showLoading()
             }
         });
-        $http.get($scope.resultData.url+"Get/"+post_id+"/"+gbltablename).then(function () {
+        $http.get($scope.resultData.url + "Get/" + post_id + "/" + tablename).then(function () {
             Swal.fire({
                 title: 'Approved',
                 type: 'success',
@@ -38,10 +41,17 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
         })
     }
 
+    $scope.approveDataSingle = function (post_id) {
+        $scope.approveData(post_id, gbltablename);
+    }
 
 
+    $scope.deleteDataSingle = function (postid) {
+         $scope.deleteData(postid, gbltablename);
+    }
 
-    $scope.deleteData = function (postid) {
+
+    $scope.deleteData = function (postid, tablename) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -52,24 +62,20 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                $scope.doDelete(postid);
+                $scope.doDelete(postid, tablename);
             }
         })
     }
 
 
-    $scope.doDelete = function (post_id) {
-
+    $scope.doDelete = function (post_id, tablename) {
         Swal.fire({
             title: 'Prcessing...',
             onBeforeOpen: () => {
                 Swal.showLoading()
             }
         })
-        var formData = new FormData();
-        formData.append('post_id', post_id);
-        formData.append('table_name', gbltablename);
-        $http.post($scope.resultData.url+"Delete/"+post_id+"/"+gbltablename, formData).then(function () {
+        $http.get($scope.resultData.url + "Delete/" + post_id + "/" + tablename).then(function () {
             Swal.fire({
                 title: 'Deleted',
                 type: 'success',
@@ -89,7 +95,6 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
                 showConfirmButton: false,
             })
         })
-
     }
 
 

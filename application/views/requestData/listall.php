@@ -46,7 +46,7 @@ $this->load->view('layout/topmenu');
 
                     </div>
 
-                    <h4 class="panel-title" style="    font-size: 22px;"><?php echo $title; ?></h4>
+                    <h4 class="panel-title" style="    font-size: 22px;">Unseen Class Data</h4>
                 </div>
                 <div class="panel-body">
 
@@ -56,18 +56,18 @@ $this->load->view('layout/topmenu');
 
 
 
-                    <ul class="media-list media-list-with-divider listcard"  ng-repeat="data in resultData.list">
+                    <ul class="media-list media-list-with-divider listcard"  ng-repeat="data in rootData.classDataNotify">
                         <li class="media media-sm" >
                             <a class="media-left" href="javascript:;">
-                                <img src="<?php echo base_url(); ?>assets/svgicon/<?php echo $fileicon; ?>" alt="" class="media-object rounded-corner">
+                                <img src="<?php echo base_url(); ?>assets/svgicon/{{data.icon}}" alt="" class="media-object rounded-corner">
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">
                                     {{data.title}}
                                 </h4>
-                                <?php if ($showclass) { ?>
+                            
                                     <p ><span class="profileclass"> CLASS <span class="classtag greenGradiant">{{data.class}}/{{data.section}}</span> </span></p>
-                                <?php } ?>
+                             
                                 <div class="teachersection">
                                     <p><i class="fa fa-user"></i> {{data.teacherdata.name}} (#{{data.teacherdata.userid}})</p>
                                 </div>
@@ -84,12 +84,12 @@ $this->load->view('layout/topmenu');
                                     {{data.description}}
                                 </p>
                                 <p>
-                                    <a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-inverse m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
+                                    <a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-inverse m-r-5" ng-if='data.attachment'  >
                                         <i class="icon fa fa-download" style="color: {{resultData.textcolor}};"></i> Download
                                     </a>
-                                    <button class="btn btn-sm btn-danger pull-right" ng-click="deleteDataSingle(data.id)"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger pull-right" ng-click="deleteData(data.id, data.tablename)"><i class="fa fa-trash"></i></button>
 
-                                    <button class="btn btn-sm btn-success pull-right m-r-5" ng-click="approveDataSingle(data.id)"><i class="fa fa-check"></i> Approve</button>
+                                    <button class="btn btn-sm btn-success pull-right m-r-5" ng-click="approveData(data.id, data.tablename)"><i class="fa fa-check"></i> Approve</button>
 
                                 </p>
                             </div>
@@ -128,7 +128,7 @@ $this->load->view('layout/footer');
 </script>
 
 <script>
-    var gbltablename = "<?php echo $tablename; ?>";
+    var gbltablename = "";
     var gblurl = "<?php echo $geturl ?>";
 </script>
 

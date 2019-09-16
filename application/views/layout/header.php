@@ -82,7 +82,7 @@
             var rootAssetUrl = '<?php echo base_url(); ?>';
             var contextgbl = new AudioContext();
             var globlelogo = "<?php echo base_url(); ?>assets/img/notification.jpg";
-             var globleicon = "<?php echo base_url(); ?>assets/img/mobileicon.png";
+             var globleicon = "<?php echo base_url(); ?>assets/img/mobileicon1.png";
         </script>
 
 

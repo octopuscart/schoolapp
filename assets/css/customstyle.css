@@ -29,3 +29,14 @@ span.classtag {
 border: 4px solid #d7d7d7;
     background: white;
 }
+
+
+.textoverflow{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.f_40{
+    font-size: 40px;
+}

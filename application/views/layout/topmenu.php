@@ -27,18 +27,19 @@ if ($userdata) {
             <li class="dropdown">
                 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                     <i class="fa fa-envelope"></i>
-                    <span class="label">{{orderGlobleCheck.unseenemail.length}}</span>
+                    <span class="label">{{rootData.messageDataNotifyCount}}</span>
                 </a>
                 <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                    <li class="dropdown-header">Unseen Emails ({{orderGlobleCheck.unseenemail.length}})</li>
+                    <li class="dropdown-header">Unseen Messages ({{rootData.messageDataNotifyCount}})</li>
 
 
 
-                    <li class="media" ng-repeat="emails in orderGlobleCheck.unseenemail">
+                    <li class="media" ng-repeat="emails in rootData.messageDataNotifyShort">
                         <a href="javascript:;">
                             <div class="media-left"><i class="fa fa-calendar media-object bg-red"></i></div>
                             <div class="media-body">
-                                <h6 class="media-heading textoverflow">{{emails.subject}}</h6>
+                                <h6 class="media-heading textoverflow">{{emails.title}}</h6>
+                                <div class="text-muted f-s-11 textoverflow">{{emails.description}}</div>
                                 <div class="text-muted f-s-11">{{emails.datetime}}</div>
                             </div>
                         </a>
@@ -47,7 +48,7 @@ if ($userdata) {
 
 
                     <li class="dropdown-footer text-center">
-                        <a href="<?php echo site_url("Order/orderInbox");?>">View more</a>
+                        <a href="<?php echo site_url("Messages/messageInbox");?>">View more</a>
                     </li>
                 </ul>
             </li>
@@ -55,19 +56,19 @@ if ($userdata) {
             <li class="dropdown">
                 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                     <i class="fa fa-bell-o"></i>
-                    <span class="label">{{orderGlobleCheck.allNotifications.length}}</span>
+                    <span class="label">{{rootData.classDataNotifyCount}}</span>
                 </a>
                 <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                    <li class="dropdown-header">Notifications ({{orderGlobleCheck.allNotifications.length}})</li>
+                    <li class="dropdown-header">Notifications ({{rootData.classDataNotifyCount}})</li>
 
 
 
-                    <li class="media" ng-repeat="notify in orderGlobleCheck.allNotifications">
+                    <li class="media" ng-repeat="notify in rootData.classDataNotifyShort">
                         <a href="javascript:;">
                             <div class="media-left"><i class="fa fa-calendar media-object bg-red"></i></div>
                             <div class="media-body">
-                                <h6 class="media-heading textoverflow">{{notify.title}}</h6>
-                                <div class="text-muted f-s-11 textoverflow">{{notify.description}}</div>
+                                <h6 class="media-heading textoverflow">{{notify.datatype}}</h6>
+                                <div class="text-muted f-s-11 textoverflow">{{notify.title}}</div>
                                 <div class="text-muted f-s-11">{{notify.data.datetime}}</div>
                             </div>
                         </a>
@@ -76,7 +77,7 @@ if ($userdata) {
 
 
                     <li class="dropdown-footer text-center">
-                        <a href="<?php echo site_url("Messages/notifications");?>">View more</a>
+                        <a href="<?php echo site_url("requestData/classAllData");?>">View more</a>
                     </li>
                 </ul>
             </li>

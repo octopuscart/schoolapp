@@ -7,7 +7,7 @@ class Order extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Product_model');
-        $this->load->model('User_model');
+
         $this->load->model('Order_model');
         $this->curd = $this->load->model('Curd_model');
         $session_user = $this->session->userdata('logged_in');
@@ -50,28 +50,12 @@ class Order extends CI_Controller {
         $date2 = date('Y-m-d');
 
         $data = array();
-        $blog_data = $this->Curd_model->get('style_tips', 'desc');
-        $data['blog_data'] = $blog_data;
+        //$blog_data = $this->Curd_model->get('style_tips', 'desc');
+        $data['blog_data'] = [];
 
-        $this->db->order_by('id', 'desc');
-        $this->db->where('order_date between "' . $date1 . '" and "' . $date2 . '"');
-        $query = $this->db->get('web_order');
-        $orderlist = $query->result();
         $orderslistr = [];
-        foreach ($orderlist as $key => $value) {
-            $this->db->order_by('id', 'desc');
-            $this->db->where('order_id', $value->id);
-            $query = $this->db->get('user_order_status');
-            $status = $query->row();
-            $value->status = $status ? $status->status : $value->status = $status ? $status->status : "--";
-            ;
-            $value->status_datetime = $status ? $status->c_date . " " . $status->c_time : $value->order_date;
-
-            $value->itemsarray = array();
-            $value->items = implode(", ", array());
-            array_push($orderslistr, $value);
-        }
-        $data['orderslist'] = $orderslistr;
+      
+        $data['orderslist'] = [];
 
 
         $data['exportdata'] = 'no';
@@ -88,22 +72,11 @@ class Order extends CI_Controller {
         }
         $daterange = $date1 . " to " . $date2;
         $data['daterange'] = $daterange;
-        $this->db->order_by('id', 'desc');
-        $this->db->where('order_date between "' . $date1 . '" and "' . $date2 . '"');
-        $query = $this->db->get('user_order');
-        $orderlist = $query->result_array();
+
         $orderslistr = [];
         $total_amount = 0;
-        foreach ($orderlist as $key => $value) {
-            $this->db->order_by('id', 'desc');
-            $this->db->where('order_id', $value['id']);
-            $total_amount += $value['total_price'];
-            $query = $this->db->get('user_order_status');
-            $status = $query->row();
-            $value['status'] = $status ? $status->status : $value['status'];
-            array_push($orderslistr, $value);
-        }
-        $data['total_amount'] = $total_amount;
+      
+        $data['total_amount'] = 0;
 
 
 
@@ -112,64 +85,39 @@ class Order extends CI_Controller {
         $query = $this->db->get('admin_users');
         $userlist = $query->result_array();
 
-        $this->db->order_by('c.id', 'desc');
-        $query = $this->db->from('cart as c');
-        $this->db->join('user_order as uo', 'uo.id = c.order_id');
-        $this->db->where('c.order_id > 0');
-        $this->db->where('uo.order_date between "' . $date1 . '" and "' . $date2 . '"');
-        $query = $this->db->get();
-        $vendororderlist = $query->result_array();
 
 
-        $data['vendor_orders'] = count($vendororderlist);
-        $data['total_order'] = count($orderslistr);
-        $data['total_users'] = count($userlist);
+        $data['vendor_orders'] = 0;
+        $data['total_order'] = 0;
+        $data['total_users'] = 0;
 
-        $this->load->library('JsonSorting', $orderslistr);
-        $orderstatus = $this->jsonsorting->collect_data('status');
-        $orderuser = $this->jsonsorting->collect_data('name');
-        $orderdate = $this->jsonsorting->collect_data('order_date');
-        $data['orderstatus'] = $orderstatus;
-        $data['orderuser'] = $orderuser;
-        $data['orderdate'] = $orderdate;
+
+        $data['orderstatus'] = [];
+        $data['orderuser'] = [];
+        $data['orderdate'] = [];
 
 
 
 
 //order graph date
-        $dategraphdata = $this->date_graph_data($date1, $date2, $orderdate);
-        $data['order_date_graph'] = $dategraphdata;
+        $data['order_date_graph'] = [];
 
 
-        $amount_date = $this->jsonsorting->data_combination_quantity('total_price', 'order_date');
-
-        $salesgraph = array();
-
-        foreach ($dategraphdata as $key => $value) {
-            $salesgraph[$key] = 0;
-            if (isset($amount_date[$key])) {
-                $salesgraph[$key] = $amount_date[$key];
-            }
-        }
-
-        $data['salesgraph'] = $salesgraph;
+        $data['salesgraph'] = [];
 
 
 
         $this->db->order_by('id', 'desc');
         $this->db->limit(10);
-        $query = $this->db->get('admin_users');
+        $query = $this->db->get('school_user');
         $systemlog = $query->result_array();
 
         $data['latestusers'] = $systemlog;
 
 
-        $this->db->order_by('id', 'desc');
-        $this->db->limit(10);
-        $query = $this->db->get('system_log');
-        $systemlog = $query->result_array();
 
-        $data['systemlog'] = $systemlog;
+
+        $data['systemlog'] = [];
 
 
         $this->load->view('Order/dashboard', $data);

@@ -7,17 +7,16 @@ if ($userdata) {
 }
 $menu_control = array();
 
-$product_menu = array(
-    "title" => "Product Manegement",
-    "icon" => "ion-cube",
+$classdata_menu = array(
+    "title" => "Class Approve Data",
+    "icon" => "fa fa-list",
     "active" => "",
     "sub_menu" => array(
 //        "Add Product" => site_url("ProductManager/add_product"),
-        "Product Reports" => site_url("ProductManager/productReport"),
-        "Categories" => site_url("ProductManager/categories"),
-        "Items Prices" => site_url("ProductManager/categoryItems"),
-        "Product Sorting" => site_url("ProductManager/productSorting"),
-        "Product Colors" => site_url("ProductManager/productColors"),
+        "Assignments" => site_url("requestData/classAssignmentData"),
+        "Class Notice" => site_url("PrequestData/classNoticeData"),
+        "Class Notes" => site_url("requestData/classNoteData"),
+        "Combin Data" => site_url("requestData/classAllData"),
     ),
 );
 
@@ -25,7 +24,7 @@ $product_menu = array(
 
 
 
-#array_push($menu_control, $product_menu);
+array_push($menu_control, $classdata_menu);
 
 
 $order_menu = array(
@@ -38,7 +37,7 @@ $order_menu = array(
         "Order Analytics" => site_url("Order/index"),
     ),
 );
-array_push($menu_control, $order_menu);
+#array_push($menu_control, $order_menu);
 
 $client_menu = array(
     "title" => "Client Manegement",
@@ -48,17 +47,9 @@ $client_menu = array(
         "Clients Reports" => site_url("UserManager/usersReport"),
     ),
 );
-array_push($menu_control, $client_menu);
+#array_push($menu_control, $client_menu);
 
-$coupons_menu = array(
-    "title" => "Coupon Manegement",
-    "icon" => "fa fa-file",
-    "active" => "",
-    "sub_menu" => array(
-        "Create Coupons" => site_url("CMS/couponCode"),
-    ),
-);
-array_push($menu_control, $coupons_menu);
+
 
 
 
@@ -88,7 +79,7 @@ $lookbook_menu = array(
 //        "Tags" => site_url("CMS/blogTag"),
     ),
 );
-array_push($menu_control, $lookbook_menu);
+#array_push($menu_control, $lookbook_menu);
 
 //
 //$cms_menu = array(
@@ -123,7 +114,7 @@ $msg_menu = array(
 );
 
 
-array_push($menu_control, $msg_menu);
+#array_push($menu_control, $msg_menu);
 
 $schedule_menu = array(
     "title" => "Schedule Management",
@@ -161,7 +152,7 @@ $setting_menu = array(
 );
 
 
-array_push($menu_control, $setting_menu);
+#array_push($menu_control, $setting_menu);
 
 
 
@@ -173,7 +164,7 @@ $social_menu = array(
         "Social Link" => site_url("CMS/socialLink"),
     ),
 );
-array_push($menu_control, $social_menu);
+#array_push($menu_control, $social_menu);
 
 
 $seo_menu = array(
@@ -185,7 +176,7 @@ $seo_menu = array(
         "Page Wise Setting" => site_url("CMS/seoPageSetting"),
     ),
 );
-array_push($menu_control, $seo_menu);
+#array_push($menu_control, $seo_menu);
 
 
 
@@ -221,20 +212,8 @@ foreach ($menu_control as $key => $value) {
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="has-sub ">
-                <a href="javascript:;">
-                    <b class="caret pull-right"></b>
-                    <i class="fa fa-laptop"></i>
-                    <span>Pending Data</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active"><a href="<?php echo site_url("requestData/classAssignmentData"); ?>">Assignments</a></li>
-                    <li class="active"><a href="<?php echo site_url("requestData/classNoticeData"); ?>">Class Notice</a></li>
-                    <li class="active"><a href="<?php echo site_url("requestData/classNoteData"); ?>">Class Notes</a></li>
-
-                </ul>
-            </li>
-            <?php foreach ([] as $mkey => $mvalue) { ?>
+           
+            <?php foreach ($menu_control as $mkey => $mvalue) { ?>
 
                 <li class="has-sub <?php echo $mvalue['active']; ?>">
                     <a href="javascript:;">

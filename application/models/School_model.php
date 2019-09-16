@@ -328,6 +328,26 @@ class School_model extends CI_Model {
         return array("regids" => $collectuserids, "message" => $messageData);
     }
 
+    function unseenClassData() {
+        $querystr = "select * from (
+             SELECT *, 'class_notes' as tablename, 'Class Notes' as datatype, 'circular.svg' as icon  FROM `class_notes` where status='0'
+UNION
+             select *, 'class_assignment' as tablename, 'Assignments' as datatype, 'assignment.svg' as icon from class_assignment where status='0'
+UNION
+             select *, 'class_notice' as tablename, 'Class Notice' as datatyp, 'classnotice.svg' as icone from class_notice where status='0') as a order by datetime desc";
+        $query = $this->db->query($querystr);
+        $classDataUnseen = $query->result_array();
+        return $classDataUnseen;
+    }
+
+    function unseenMessages() {
+        $this->db->where('status', "0");
+        $this->db->order_by('id desc');
+        $query = $this->db->get('school_message');
+        $replyData = $query->result();
+        return $replyData;
+    }
+
 }
 
 ?>

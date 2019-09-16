@@ -542,6 +542,7 @@ class LocalApi extends REST_Controller {
 
     function classData_get($tablename) {
         $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
         $assignmentData = $this->School_model->classDataByClassId($tablename, "0", "");
         foreach ($assignmentData as $key => $value) {
             $teacherid = $value->user_id;
@@ -552,6 +553,7 @@ class LocalApi extends REST_Controller {
 
     function classData_post() {
         $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
         $post_id = $this->post('post_id');
         $tablename = $this->post('table_name');
         $data = array("status" => "1");
@@ -573,6 +575,7 @@ class LocalApi extends REST_Controller {
 
     function classDataDelete_post() {
         $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
         $post_id = $this->post('post_id');
         $tablename = $this->post('table_name');
         $this->db->where("id", $post_id);

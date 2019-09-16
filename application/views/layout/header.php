@@ -25,6 +25,8 @@
             "CustomeStyle" => "assets/css/customstyle.css",
             "IonicIcon" => "assets/plugins/ionicons/css/ionicons.min.css",
             "Gitter" => "assets/plugins/gritter/css/jquery.gritter.css",
+            "DataTable" => "assets/plugins/DataTables/css/data-table.css",
+            "Sweet Alert" => "assets/sweetalert2/sweetalert2.min.css",
         );
         foreach ($styleSheetArray as $title => $stylesheet) {
             ?>
@@ -34,12 +36,11 @@
         }
         ?>
 
-        <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
-        <link href="<?php echo base_url(); ?>assets/plugins/DataTables/css/data-table.css" rel="stylesheet" />
-        <!-- ================== END PAGE LEVEL STYLE ================== -->
+
 
         <!-- end page container -->	
         <!-- ================== BEGIN BASE JS ================== -->
+ 
         <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-1.9.1.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -52,15 +53,11 @@
                 <script src="assets/crossbrowserjs/excanvas.min.js"></script>
         <![endif]-->
 
-
-
-
         <!-- ================== BEGIN BASE JS ================== -->
         <script src="<?php echo base_url(); ?>assets/plugins/pace/pace.min.js"></script>
-        <link href="<?php echo base_url(); ?>assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />	
         <!-- ================== END BASE JS ================== -->
 
-
+        <script src="<?php echo base_url(); ?>assets/sweetalert2/sweetalert2.min.js"></script>
         <!--angular js-->
         <script src="<?php echo base_url(); ?>assets/angular/angular.min.js"></script>
 

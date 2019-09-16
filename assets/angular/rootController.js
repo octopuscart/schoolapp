@@ -137,9 +137,9 @@ Admin.controller('rootController', function ($scope, $http, $timeout, $interval)
     if (orderlist.length == 2) {
     } else {
         $interval(function () {
-            $scope.checkUnseenOrder();
+       //     $scope.checkUnseenOrder();
         }, 10000)
-        $scope.checkUnseenOrder();
+       // $scope.checkUnseenOrder();
     }
 
 })

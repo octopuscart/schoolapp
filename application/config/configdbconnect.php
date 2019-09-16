@@ -1,7 +1,7 @@
 <?php
-
 require('configuration_db.php');
 $globleConnectDB = array();
+$globleConnectTheme = array("style_css"=>"");
 try {
     $username = "edifysn_school";
     $password = "school$#2019";
@@ -15,6 +15,13 @@ try {
     $stmt->execute();
     while ($row = $stmt->fetch()) {
         $globleConnectDB = $row;
+    }
+    
+    
+    $stmt2 = $conn->prepare('SELECT * FROM theme_css');
+    $stmt2->execute();
+    while ($row = $stmt2->fetch()) {
+        $globleConnectTheme = $row;
     }
 
     $stmt = $conn->prepare('SELECT * FROM configuration_report');
@@ -30,11 +37,7 @@ try {
         $globleConnectCheckout = $row;
     }
 
-    $stmt = $conn->prepare('SELECT * FROM theme_css');
-    $stmt->execute();
-    while ($row = $stmt->fetch()) {
-        $globleConnectTheme = $row;
-    }
+    
 } catch (PDOException $e) {
     
 }

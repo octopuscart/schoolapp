@@ -473,7 +473,7 @@ class LocalApi extends REST_Controller {
             array_push($regid, $value['reg_id']);
         }
         $data = array('title' => $title, "message" => $message);
-        if($totalcount){
+        if ($totalcount) {
             $this->android($data, $regid);
         }
     }
@@ -503,6 +503,41 @@ class LocalApi extends REST_Controller {
         }
         $data = array('title' => $title, "message" => $message);
         $this->android($data, $regid);
+    }
+
+    //school function 
+    //
+    //
+    //
+
+    function classData_get($tablename) {
+        $this->config->load('rest', TRUE);
+        $assignmentData = $this->School_model->classDataByClassId($tablename, "0", "");
+        foreach ($assignmentData as $key => $value) {
+            $teacherid = $value->user_id;
+            $value->teacherdata = $this->School_model->userDataFromId($teacherid);
+        }
+        $this->response($assignmentData);
+    }
+
+    function classData_post() {
+        $this->config->load('rest', TRUE);
+        $post_id = $this->post('post_id');
+        $tablename = $this->post('table_name');
+        $data = array("status" => "1");
+        $this->db->set($data);
+        $this->db->where("id", $post_id);
+        $this->db->update($tablename);
+        $this->response(array("status" => "done"));
+    }
+    
+    function classDataDelete_post() {
+        $this->config->load('rest', TRUE);
+        $post_id = $this->post('post_id');
+        $tablename = $this->post('table_name');
+        $this->db->where("id", $post_id);
+        $this->db->delete($tablename);
+        $this->response(array("status" => "done"));
     }
 
 }

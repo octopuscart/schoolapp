@@ -20,26 +20,7 @@ class MobileApi extends REST_Controller {
 
     function getClassData_get() {
         $this->config->load('rest', TRUE);
-        $classData = array(
-            "1" =>
-            array(
-                "id" => "1",
-                "title" => "6th",
-                "section" => array(
-                    "12" => array("class_id" => "12", "section" => "A"),
-                    "13" => array("class_id" => "13", "section" => "B")
-                ),
-            ),
-            "2" => array(
-                "id" => "2",
-                "title" => "7th",
-                "section" => [
-                    "14" => array("class_id" => "14", "section" => "A"),
-                    "15" => array("class_id" => "15", "section" => "B"),
-                    "16" => array("class_id" => "16", "section" => "C")
-                ],
-            )
-        );
+        $classData = $this->School_model->ClassListData();
         $this->response($classData);
     }
 
@@ -111,43 +92,30 @@ class MobileApi extends REST_Controller {
 
     function getClassNoteDataByClass_get($class_id) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('class_id', $class_id);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_notes');
-        $classnoteData = $query->result();
+        $classnoteData = $this->School_model->classDataByClassId("class_notes", "1", $class_id);
         $this->response($classnoteData);
     }
 
     function getClassNoteData_get($userid) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('user_id', $userid);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_notes');
-        $classnoteData = $query->result();
+        $classnoteData = $this->School_model->classDataByUserId("class_notes", "all", $userid);
         $this->response($classnoteData);
     }
 
     // End of Class Note functions
+    // 
+    // 
+    // 
     //Assignment Functions
     function getAssignmentDataByClass_get($class_id) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('class_id', $class_id);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_assignment');
-        $assignmentData = $query->result();
+        $assignmentData = $this->School_model->classDataByClassId("class_assignment", "1", $class_id);
         $this->response($assignmentData);
     }
 
     function getAssignmentData_get($userid) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('user_id', $userid);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_assignment');
-        $assignmentData = $query->result();
+        $assignmentData = $this->School_model->classDataByUserId("class_assignment", "all", $userid);
         $this->response($assignmentData);
     }
 
@@ -171,30 +139,22 @@ class MobileApi extends REST_Controller {
 
     //end of assignment function
     //
-    //Class note functions
+    //
+    //Class notice functions
     function getClassNoticeData_get($userid) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('user_id', $userid);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_notice');
-        $assignmentData = $query->result();
+        $assignmentData = $this->School_model->classDataByUserId("class_notice", "all", $userid);
         $this->response($assignmentData);
     }
 
     function getClassNoticeDataByClass_get($class_id) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('class_id', $class_id);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('class_notice');
-        $assignmentData = $query->result();
+        $assignmentData = $this->School_model->classDataByClassId("class_notice", "1", $class_id);
         $this->response($assignmentData);
     }
 
     function classNotice_post() {
         $this->config->load('rest', TRUE);
-        // $tempfilename = rand(100, 1000000);
         $class_notes = array(
             'title' => $this->post('title'),
             'description' => $this->post('description'),
@@ -211,137 +171,78 @@ class MobileApi extends REST_Controller {
         $this->response(array("last_id" => $last_id));
     }
 
+    //end of class notice data
+    //
+    //
     //circular data
     function getCircularData_get($usertype) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('user_type', $usertype);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('school_circular');
-        $CircularData = $query->result();
-        $this->response($CircularData);
+        $circularData = $this->School_model->circularData($usertype);
+        $this->response($circularData);
     }
 
-    //    end of circular data
-
+    //end of circular data
+    //
+    //
+    // news function
     function getNewsData_get() {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->order_by('id desc');
-        $query = $this->db->get('school_news');
-        $CircularData = $query->result();
-        $this->response($CircularData);
+        $newsData = $this->School_model->newsData($usertype);
+        $this->response($newsData);
     }
 
-    //end of class note functions
-
-
+    //end of news  functions
+    //
+    //
+    //gallary controller
     function getGalleryAlbum_get() {
         $this->config->load('rest', TRUE);
-        $tempdata = array(
-            "id" => "1",
-            "title" => "Test Album",
-            "description" => "Description Of Test News.",
-            "main_image" => base_url() . "assets/gallary/" . "1.jpg",
-            "stackimage" => [
-                base_url() . "assets/gallary/" . "1.jpg",
-                base_url() . "assets/gallary/" . "2.jpg",
-                base_url() . "assets/gallary/" . "3.jpg",
-                base_url() . "assets/gallary/" . "4.jpg",
-            ],
-            "datetime" => date("Y-m-d H:i:s a"),
-        );
-        $newsData = [];
-        for ($i = 0; $i < 15; $i++) {
-            array_push($newsData, $tempdata);
-        }
-        $this->response($newsData);
+        $gallaryData = $this->School_model->galleryAlbum();
+        $this->response($gallaryData);
     }
 
     function getGalleryAlbumById_get($albumid) {
         $this->config->load('rest', TRUE);
-        $tempdata = array(
-            "title" => "Test Album",
-            "description" => "Description Of Test News.",
-            "main_image" => base_url() . "assets/gallary/" . "1.jpg",
-            "images1" => [
-                array("img" => base_url() . "assets/gallary/" . "1.jpg", "index" => 0),
-                array("img" => base_url() . "assets/gallary/" . "2.jpg", "index" => 1),
-                array("img" => base_url() . "assets/gallary/" . "3.jpg", "index" => 2),
-                array("img" => base_url() . "assets/gallary/" . "4.jpg", "index" => 3),
-            ],
-            "images2" => [
-                array("img" => base_url() . "assets/gallary/" . "5.jpg", "index" => 4),
-                array("img" => base_url() . "assets/gallary/" . "6.jpg", "index" => 5),
-                array("img" => base_url() . "assets/gallary/" . "7.jpg", "index" => 6),
-                array("img" => base_url() . "assets/gallary/" . "8.jpg", "index" => 7),
-            ],
-            "datetime" => date("Y-m-d H:i:s a"),
-        );
-        $this->response($tempdata);
+        $gallaryimages = $this->School_model->GalleryAlbumById($albumid);
+        $this->response($gallaryimages);
     }
 
-    function test_get() {
-        $user_array = array(
-            "S300001" => array("userid" => "S300001", "name" => "Ayushi Mourya", "mobile_no" => "0000000000", "email" => "", "gender" => "Female", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),
-            "S200001" => array("userid" => "S200001", "name" => "Piyush Jayshwal", "mobile_no" => "0000000000", "email" => "", "gender" => "Male", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),
-            "S700001" => array("userid" => "S100001", "name" => "Priyanka Sen", "mobile_no" => "0000000000", "email" => "", "gender" => "Female", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),
-            "S400001" => array("userid" => "S400001", "name" => "Pooja Sharma", "mobile_no" => "0000000000", "email" => "", "gender" => "Female", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),
-            "S500001" => array("userid" => "S500001", "name" => "Mohit Shrivastav", "mobile_no" => "0000000000", "email" => "", "gender" => "Male", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),
-            "S600001" => array("userid" => "S600001", "name" => "Piyush Shukla", "mobile_no" => "0000000000", "email" => "", "gender" => "Male", "user_type" => "student", "class" => "6th", "section" => "B", "class_id" => "12"),);
-        foreach ($user_array as $key => $value) {
-            #$this->db->insert('school_user', $value);
-        }
-    }
-
+    //gallary function end
+    //
+    //
+    // User Data From Id
     function getUserDataFromId_post($user_type = "") {
         $this->config->load('rest', TRUE);
         $user_id = $this->post('user_id');
-        if ($user_type == 'student') {
-            $this->db->where('user_type', "student");
-        }
-        $this->db->where('userid', $user_id);
-        $this->db->order_by('name asc');
-        $query = $this->db->get('school_user');
-        $userData = $query->row();
+        $userData = $this->School_model->userDataFromId($user_id, $user_type);
         $returndata = array("status" => "100", "data" => "");
         if ($userData) {
-            $tempdata = $userData;
-            $returndata["data"] = $tempdata;
+            $returndata["data"] = $userData;
             $returndata["status"] = "200";
         }
         $this->response($returndata);
     }
 
-    function ClassStudents($classid) {
-//        $this->db->where('status', '1');
-        $this->db->where('class_id', $classid);
-        $this->db->where('user_type', "student");
-        $this->db->order_by('name asc');
-        $query = $this->db->get('school_user');
-        $userData = $query->result();
-        return $userData;
-    }
-
+    //End of user form id
+    //
+    //
+    //
+    //Get class studetn by classid
     function getClassStudents_get($classid) {
         $this->config->load('rest', TRUE);
-        $userData = $this->ClassStudents($classid);
+        $userData = $this->School_model->classStudents($classid);
         $this->response($userData);
     }
 
+    //end of class student by class id
+    //
+    //
+    //Parent contooler
     //set child to parent
     function getChildToParent_get($parent_id) {
         $this->config->load('rest', TRUE);
-        $this->db->where('parent_id', $parent_id);
-        $this->db->where('user_type', "student");
-        $this->db->order_by('name asc');
-        $query = $this->db->get('school_user');
-        $userData = $query->result();
-        $userDataF = array();
-        foreach ($userData as $key => $value) {
-            $userDataF[$value->userid] = $value;
-        }
-        $this->response($userDataF);
+        $childrendata = $this->School_model->childToParent($parent_id);
+        $this->response($childrendata);
     }
 
     function setChildToParent_post() {
@@ -364,6 +265,9 @@ class MobileApi extends REST_Controller {
         $this->response(array("status" => "1"));
     }
 
+    // end of parent controller 
+    //
+    //
     //Leave Request Functrions  
     function setLeaveRequest_post() {
         $this->config->load('rest', TRUE);
@@ -383,27 +287,13 @@ class MobileApi extends REST_Controller {
 
     function getLeaveRequestByClass_get($classid) {
         $this->config->load('rest', TRUE);
-        $this->db->select('slr.*, su.name, su.class_id, su.class, su.section, su.gender');
-//        $this->db->where('slr.status', '0');
-        $this->db->where('slr.class_id', $classid);
-        $this->db->order_by('slr.id desc');
-        $this->db->from('student_leave_request as slr');
-        $this->db->join('school_user as su', 'su.userid = slr.student_id', 'LEFT');
-        $query = $this->db->get();
-        $userData = $query->result_array();
+        $userData = $this->School_model->leaveRequestData("class", $classid);
         $this->response($userData);
     }
 
     function getLeaveRequestByParent_get($parentid) {
         $this->config->load('rest', TRUE);
-        $this->db->select('slr.*, su.name, su.class_id, su.class, su.section, su.gender');
-        //        $this->db->where('status', '1');
-        $this->db->where('slr.parent_id', $parentid);
-        $this->db->order_by('slr.id desc');
-        $this->db->from('student_leave_request as slr');
-        $this->db->join('school_user as su', 'su.userid = slr.student_id', 'LEFT');
-        $query = $this->db->get();
-        $userData = $query->result_array();
+        $userData = $this->School_model->leaveRequestData("parent", $parentid);
         $this->response($userData);
     }
 
@@ -426,50 +316,22 @@ class MobileApi extends REST_Controller {
         $this->response(array("status" => "1"));
     }
 
+    //end of leave request function 
+    //
+    //
     //attendance function
-    function getAttendanceByDate($class_id, $date) {
-        $this->db->where('class_id', $class_id);
-        $this->db->where('at_date', $date);
-        $query = $this->db->get('student_attendance');
-        $attendata = $query->result_array();
-        $attenArray = array();
-        foreach ($attendata as $key => $value) {
-            $attenArray[$value['student_id']] = $value;
-        }
-        return $attenArray;
-    }
-
     function getAttendanceByStudent_get($student_id) {
         $this->config->load('rest', TRUE);
-        $this->db->where('student_id', $student_id);
-//        $this->db->where('at_date', $date); //Here sould be year wise attandance
-        $query = $this->db->get('student_attendance');
-        $attendata = $query->result_array();
+        $attendata = $this->School_model->attendanceByStudent($student_id);
         $this->response($attendata);
     }
 
     function getClassStudentsAttendance_get($classid) {
         $this->config->load('rest', TRUE);
-        $userData = $this->ClassStudents($classid);
         $datetoday = date("Y-m-d");
         $attendancestatus = "0";
-        $attendanceArray = $this->getAttendanceByDate($classid, $datetoday);
-        if ($attendanceArray) {
-            $attendancestatus = "1";
-        }
-
-        $studentdata = [];
-        foreach ($userData as $key => $value) {
-            if (isset($attendanceArray[$value->userid])) {
-                $atnobj = $attendanceArray[$value->userid];
-                $value->attendance = $atnobj['status'];
-            } else {
-                $value->attendance = "P";
-            }
-
-            array_push($studentdata, $value);
-        }
-        $this->response(array("students" => $studentdata, "attendancestatus" => $attendancestatus));
+        $attendanceArray = $this->School_model->classStudentsAttendance($classid, $datetoday, "P");
+        $this->response($attendanceArray);
     }
 
     function classAttendanceTake_post() {
@@ -481,9 +343,8 @@ class MobileApi extends REST_Controller {
         $students = $this->post("students");
         $studetn_array = explode(",", $students);
         $datetoday = date("Y-m-d");
-        $attendanceArray = $this->getAttendanceByDate($class_id, $datetoday);
+        $attendanceArray = $this->School_model->attendanceByDate($class_id, $datetoday);
         foreach ($studetn_array as $key => $value) {
-
             $states_student = explode("_", $value);
             $ids = isset($attendanceArray[$states_student[1]]) ? $attendanceArray[$states_student[1]]['id'] : 0;
             $indertArray = array(
@@ -497,41 +358,25 @@ class MobileApi extends REST_Controller {
                 "section" => $section,
                 "taken_by" => $taken_by,
             );
-
             $this->db->replace('student_attendance', $indertArray);
         }
-
-
         $this->response(array("status" => "1"));
     }
 
-    //circular data
+    //end of attendance function
+    //
+    //
+    // message  data
     function getMessageData_get($userid) {
         $this->config->load('rest', TRUE);
-//        $this->db->where('status', '1');
-        $this->db->where('reply_id', "0");
-        $this->db->where('user_id', $userid);
-        $this->db->order_by('id desc');
-        $query = $this->db->get('school_message');
-        $MessageData = $query->result();
-
-        $messageListData = [];
-        foreach ($MessageData as $key => $value) {
-            $this->db->where('reply_id', $value->id);
-            $this->db->order_by('id desc');
-            $query = $this->db->get('school_message');
-            $replyData = $query->result();
-            $value->replydata = $replyData;
-        }
+        $MessageData = $this->School_model->messageConversation($userid);
         $this->response($MessageData);
     }
-
     function message_post() {
         $this->config->load('rest', TRUE);
-        // $tempfilename = rand(100, 1000000);
         $replyid = $this->post('reply_id');
         $replyid = $replyid ? $replyid : "0";
-        $class_notes = array(
+        $messagepost = array(
             'title' => $this->post('title'),
             'description' => $this->post('description'),
             "datetime" => date("Y-m-d H:i:s a"),
@@ -539,11 +384,34 @@ class MobileApi extends REST_Controller {
             'status' => "0",
             'reply_id' => $replyid,
         );
-        $this->db->insert('school_message', $class_notes);
+        $this->db->insert('school_message', $messagepost);
         $last_id = $this->db->insert_id();
         $this->response(array("last_id" => $last_id));
     }
+    //end of post message
+    //
+    //
+    //Update user profile 
+    function updateProfile_post() {
+        $this->config->load('rest', TRUE);
+        // $tempfilename = rand(100, 1000000);
+        $user_id = $this->post('user_id');
+        $profiledata = array(
+            'name' => $this->post('name'),
+            'email' => $this->post('email'),
+            'mobile_no' => $this->post('mobile_no'),
+        );
+        $this->db->set($profiledata);
+        $this->db->where('userid', $user_id); //set column_name and value in which row need to update
+        $this->db->update("school_user");
+        $this->db->where('userid', $user_id);
+        $this->db->order_by('name asc');
+        $query = $this->db->get('school_user');
+        $userData = $query->row();
+        $this->response(array("userdata" => $userData));
+    }
 
+    //end of profile post
 }
 
 ?>

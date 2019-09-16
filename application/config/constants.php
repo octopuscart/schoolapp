@@ -41,7 +41,7 @@ define('SEO_DESC', $configuration['seo_desc']);
 
 
 
-//define('HEADERCSS', $globleConnectTheme['style_css']);
+define('HEADERCSS', $globleConnectTheme['style_css']);
 
 
 

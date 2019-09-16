@@ -1,49 +1,31 @@
-.textoverflow{
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.f_40{
-    font-size: 40px;
-}
-
-.whitebackground{
+.profileclass {
+    color: blue;
+    float: left;
+    width: 100px;
     background: white;
-    background:url(http://baanthai.costcokart.com/assets/images/woodback.jpg);
+    border-radius: 16px;
+    padding: 2px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 27px;
+    width: 100%;
 }
-.sidebar .nav>li>a {
-    padding: 8px 20px;
-    line-height: 20px;
-    color: #fff;
-    font-weight: 400;
-}
-
-.sidebar .nav>li.nav-profile {
-    padding: 20px;
-    color: #fff;
-    background: #0000004a;
-}
-
-.navbar.navbar-inverse {
-     background: #2d353c; 
-    background: url(http://baanthai.costcokart.com/assets/images/woodback.jpg);
+span.classtag {
+    color: white;
+    padding: 2px 5px;
+    border-radius: 12px;
+    background: #0b4782;
+    /* position: absolute; */
+    /* right: 0; */
+    margin-left: 0px;
 }
 
-.content {
-    margin-left: 220px;
-    padding: 20px 25px;
-    background: url(https://baanthai.costcokart.com/assets/images/slider/3.jpg);
-    background-size: cover;
-}
 
-.timeline .timeline-time .time {
-    line-height: 28px;
-    font-size: 24px;
-    color: #ffffff;
-}
+.listcard{
+        padding: 10px ;
 
-.panel-title {
-    line-height: 20px;
-    font-size: 20px;
+    margin: 5px 25px;
+
+border: 4px solid #d7d7d7;
+    background: white;
 }

@@ -23,11 +23,7 @@ $product_menu = array(
 
 
 
-if (DEFAULT_PAYMENT == 'No') {
-    unset($product_menu['sub_menu']['Items Prices']);
-} else {
-    
-}
+
 
 #array_push($menu_control, $product_menu);
 
@@ -37,7 +33,7 @@ $order_menu = array(
     "icon" => "fa fa-list",
     "active" => "",
     "sub_menu" => array(
-         "Book Now" => site_url("Order/booknow/guest"),
+        "Book Now" => site_url("Order/booknow/guest"),
         "Orders Reports" => site_url("Order/orderslist"),
         "Order Analytics" => site_url("Order/index"),
     ),
@@ -229,15 +225,16 @@ foreach ($menu_control as $key => $value) {
                 <a href="javascript:;">
                     <b class="caret pull-right"></b>
                     <i class="fa fa-laptop"></i>
-                    <span>Dashboard</span>
+                    <span>Pending Data</span>
                 </a>
                 <ul class="sub-menu">
-
-                    <li class="active"><a href="<?php echo site_url("Order/index"); ?>">Dashboard</a></li>
+                    <li class="active"><a href="<?php echo site_url("requestData/classAssignmentData"); ?>">Assignments</a></li>
+                    <li class="active"><a href="<?php echo site_url("requestData/classNoticeData"); ?>">Class Notice</a></li>
+                    <li class="active"><a href="<?php echo site_url("requestData/classNoteData"); ?>">Class Notes</a></li>
 
                 </ul>
             </li>
-            <?php foreach ($menu_control as $mkey => $mvalue) { ?>
+            <?php foreach ([] as $mkey => $mvalue) { ?>
 
                 <li class="has-sub <?php echo $mvalue['active']; ?>">
                     <a href="javascript:;">
@@ -255,7 +252,7 @@ foreach ($menu_control as $key => $value) {
                     </ul>
                 </li>
             <?php } ?>
-            <li class="nav-header">Tailor Admin V <?php echo PANELVERSION; ?></li>
+            <li class="nav-header"> Admin V <?php echo PANELVERSION; ?></li>
             <li class="nav-header">-</li>
         </ul>
         <!-- end sidebar nav -->

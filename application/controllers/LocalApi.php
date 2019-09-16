@@ -562,9 +562,9 @@ class LocalApi extends REST_Controller {
 
         try {
             $regidsmessage = $this->School_model->sendNotificationToClassData($post_id, $tablename);
-            print_r($regidsmessage);
+           // print_r($regidsmessage);
             $data = $regidsmessage["message"];
-            echo $this->android($data, $regidsmessage['regids']);
+           // echo $this->android($data, $regidsmessage['regids']);
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
         }

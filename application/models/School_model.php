@@ -120,7 +120,7 @@ class School_model extends CI_Model {
         );
         $gallaryData = [];
         for ($i = 0; $i < 15; $i++) {
-            array_push($newsData, $tempdata);
+            array_push($gallaryData, $tempdata);
         }
     }
 

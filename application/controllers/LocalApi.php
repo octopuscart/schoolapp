@@ -281,8 +281,6 @@ class LocalApi extends REST_Controller {
 
     function registerMobileGuest_post() {
         $this->config->load('rest', TRUE);
-        header('Access-Control-Allow-Origin: *');
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         $reg_id = $this->post('reg_id');
         $model = $this->post('model');
         $manufacturer = $this->post('manufacturer');
@@ -296,11 +294,12 @@ class LocalApi extends REST_Controller {
             "user_type" => "",
             "datetime" => date("Y-m-d H:i:s a")
         );
-
-
+       
+        $this->db->where('uuid', $uuid);
         $query = $this->db->get('gcm_registration');
-        $regarray = $query->result_array();
-        if ($regArray) {
+        $regarraydata = $query->result_array();
+         print_r($regarraydata);
+        if ($regarraydata) {
             $this->db->set($regArray);
             $this->db->where('uuid', $uuid);
             $this->db->update("gcm_registration");

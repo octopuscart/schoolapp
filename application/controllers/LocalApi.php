@@ -553,7 +553,8 @@ class LocalApi extends REST_Controller {
 
     function classData_post() {
         $this->config->load('rest', TRUE);
-        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         $post_id = $this->post('post_id');
         $tablename = $this->post('table_name');
         $data = array("status" => "1");

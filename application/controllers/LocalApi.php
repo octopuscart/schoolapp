@@ -572,6 +572,28 @@ class LocalApi extends REST_Controller {
 
         $this->response(array("status" => "done"));
     }
+    
+        function classDataGetTest_get($post_id, $tablename) {
+        $this->config->load('rest', TRUE);
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $data = array("status" => "1");
+        $this->db->set($data);
+        $this->db->where("id", $post_id);
+        $this->db->update($tablename);
+
+        try {
+            $regidsmessage = $this->School_model->sendNotificationToClassData($post_id, $tablename);
+            print_r($regidsmessage);
+            $data = $regidsmessage["message"];
+            echo $this->android($data, $regidsmessage['regids']);
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
+
+
+        $this->response(array("status" => "done"));
+    }
 
     function classDataDelete_get($post_id, $tablename) {
         $this->config->load('rest', TRUE);

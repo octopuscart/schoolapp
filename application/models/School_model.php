@@ -65,12 +65,12 @@ class School_model extends CI_Model {
         if ($status == '1') {
             $this->db->where('status', '1');
         }
-        
+
         if ($class_id) {
             $this->db->where('class_id', $class_id);
         }
-        
-        
+
+
         $this->db->order_by('id desc');
         $query = $this->db->get($tablename);
         $classnoteData = $query->result();
@@ -284,6 +284,32 @@ class School_model extends CI_Model {
             $value->replydata = $replyData;
         }
         return $MessageData;
+    }
+
+    function collectClassDataUsers() {
+        try {
+            
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
+    }
+
+    function sendNotificationToClassData($post_id, $tablename) {
+        $this->db->where('id', $post_id);
+        $this->db->order_by('id desc');
+        $query = $this->db->get($tablename);
+        $classData = $query->row();
+        $class_id = $classData->class_id;
+        $students = $this->classStudents($class_id);
+        $collectuserids = [];
+        foreach ($students as $key => $value) {
+            array_push($collectuserids, $value->userid);
+            if($value->parent_id){
+                 array_push($collectuserids, $value->parent_id);
+            }
+        }
+        print_r($collectuserids);
+        
     }
 
 }

@@ -279,6 +279,37 @@ class LocalApi extends REST_Controller {
         $this->response($systemlog);
     }
 
+    function registerMobileGuest_post() {
+        $this->config->load('rest', TRUE);
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $reg_id = $this->post('reg_id');
+        $model = $this->post('model');
+        $manufacturer = $this->post('manufacturer');
+        $uuid = $this->post('uuid');
+        $regArray = array(
+            "reg_id" => $reg_id,
+            "manufacturer" => $manufacturer,
+            "uuid" => $uuid,
+            "model" => $model,
+            "user_id" => "",
+            "user_type" => "",
+            "datetime" => date("Y-m-d H:i:s a")
+        );
+
+
+        $query = $this->db->get('gcm_registration');
+        $regarray = $query->result_array();
+        if ($regArray) {
+            $this->db->set($regArray);
+            $this->db->where('uuid', $uuid);
+            $this->db->update("gcm_registration");
+        } else {
+            $this->db->insert('gcm_registration', $regArray);
+        }
+        $this->response(array("status" => "done"));
+    }
+
     function registerMobileUser_post() {
         $this->config->load('rest', TRUE);
         header('Access-Control-Allow-Origin: *');
@@ -528,9 +559,10 @@ class LocalApi extends REST_Controller {
         $this->db->set($data);
         $this->db->where("id", $post_id);
         $this->db->update($tablename);
+        $this->School_model->sendNotificationToClassData($post_id, $tablename);
         $this->response(array("status" => "done"));
     }
-    
+
     function classDataDelete_post() {
         $this->config->load('rest', TRUE);
         $post_id = $this->post('post_id');

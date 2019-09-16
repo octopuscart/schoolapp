@@ -372,6 +372,7 @@ class MobileApi extends REST_Controller {
         $MessageData = $this->School_model->messageConversation($userid);
         $this->response($MessageData);
     }
+
     function message_post() {
         $this->config->load('rest', TRUE);
         $replyid = $this->post('reply_id');
@@ -388,6 +389,7 @@ class MobileApi extends REST_Controller {
         $last_id = $this->db->insert_id();
         $this->response(array("last_id" => $last_id));
     }
+
     //end of post message
     //
     //
@@ -409,6 +411,18 @@ class MobileApi extends REST_Controller {
         $query = $this->db->get('school_user');
         $userData = $query->row();
         $this->response(array("userdata" => $userData));
+    }
+
+    function updateUserMobile_post() {
+        $this->config->load('rest', TRUE);
+        $uuid = $this->post('uuid');
+        $profiledata = array(
+            'user_id' => $this->post('user_id'),
+            'user_type' => $this->post('user_type'),
+        );
+        $this->db->set($profiledata);
+        $this->db->where('uuid', $uuid); //set column_name and value in which row need to update
+        $this->db->update("gcm_registration");
     }
 
     //end of profile post

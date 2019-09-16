@@ -7,7 +7,7 @@ class LocalApi extends REST_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->API_ACCESS_KEY = 'AIzaSyCigBYf5TOMGcIjdYY7UISRq9xlinki9hM';
+        $this->API_ACCESS_KEY = 'AIzaSyDuNuG8bnz6wBf5W21ZeVdVK9cIxs0lQww';
         // (iOS) Private key's passphrase.
         $this->passphrase = 'joashp';
         // (Windows Phone 8) The name of our push channel.
@@ -562,8 +562,9 @@ class LocalApi extends REST_Controller {
 
         try {
             $regidsmessage = $this->School_model->sendNotificationToClassData($post_id, $tablename);
+            print_r($regidsmessage);
             $data = $regidsmessage["message"];
-            $this->android($data, $regidsmessage['regids']);
+            echo $this->android($data, $regidsmessage['regids']);
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
         }

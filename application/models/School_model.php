@@ -122,6 +122,7 @@ class School_model extends CI_Model {
         for ($i = 0; $i < 15; $i++) {
             array_push($gallaryData, $tempdata);
         }
+        return $gallaryData;
     }
 
     //

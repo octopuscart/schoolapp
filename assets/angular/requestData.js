@@ -17,10 +17,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
                 Swal.showLoading()
             }
         });
-        var formData = new FormData();
-        formData.append('post_id', post_id);
-        formData.append('table_name', gbltablename);
-        $http.post($scope.resultData.url, formData).then(function () {
+        $http.get($scope.resultData.url+"Get/"+post_id+"/"+gbltablename).then(function () {
             Swal.fire({
                 title: 'Approved',
                 type: 'success',
@@ -72,7 +69,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
         var formData = new FormData();
         formData.append('post_id', post_id);
         formData.append('table_name', gbltablename);
-        $http.post($scope.resultData.url + "Delete", formData).then(function () {
+        $http.post($scope.resultData.url+"Delete/"+post_id+"/"+gbltablename, formData).then(function () {
             Swal.fire({
                 title: 'Deleted',
                 type: 'success',

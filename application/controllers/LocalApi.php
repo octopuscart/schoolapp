@@ -551,12 +551,10 @@ class LocalApi extends REST_Controller {
         $this->response($assignmentData);
     }
 
-    function classData_post() {
+    function classDataGet_get($post_id, $tablename) {
         $this->config->load('rest', TRUE);
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        $post_id = $this->post('post_id');
-        $tablename = $this->post('table_name');
         $data = array("status" => "1");
         $this->db->set($data);
         $this->db->where("id", $post_id);
@@ -574,11 +572,9 @@ class LocalApi extends REST_Controller {
         $this->response(array("status" => "done"));
     }
 
-    function classDataDelete_post() {
+    function classDataDelete_get($post_id, $tablename) {
         $this->config->load('rest', TRUE);
         header("Access-Control-Allow-Origin: *");
-        $post_id = $this->post('post_id');
-        $tablename = $this->post('table_name');
         $this->db->where("id", $post_id);
         $this->db->delete($tablename);
         $this->response(array("status" => "done"));

@@ -294,6 +294,12 @@ class School_model extends CI_Model {
         }
     }
 
+    function getRegIdById($user_id) {
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('gcm_registration');
+        return $regarray = $query->row();
+    }
+
     function sendNotificationToClassData($post_id, $tablename) {
         $this->db->where('id', $post_id);
         $this->db->order_by('id desc');
@@ -303,13 +309,20 @@ class School_model extends CI_Model {
         $students = $this->classStudents($class_id);
         $collectuserids = [];
         foreach ($students as $key => $value) {
-            array_push($collectuserids, $value->userid);
-            if($value->parent_id){
-                 array_push($collectuserids, $value->parent_id);
+            $regids = $this->getRegIdById($value->userid);
+            if ($regids) {
+                array_push($collectuserids, $regids->reg_id);
+            }
+            if ($value->parent_id) {
+                $regids2 = $this->getRegIdById($value->parent_id);
+                if ($regids2) {
+                    array_push($collectuserids, $regids2->reg_id);
+                }
             }
         }
-        print_r($collectuserids);
-        
+        $title = "New Received";
+        $messageData = array('title' => $title, "message" => $classData->title);
+        return array("regids"=>$collectuserids, "message"=>$messageData);
     }
 
 }

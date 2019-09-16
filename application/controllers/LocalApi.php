@@ -7,7 +7,7 @@ class LocalApi extends REST_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->API_ACCESS_KEY = 'AIzaSyDRm78bTofkeeczIxj2ktcBRL5JVxs9Usc';
+        $this->API_ACCESS_KEY = 'AIzaSyCigBYf5TOMGcIjdYY7UISRq9xlinki9hM';
         // (iOS) Private key's passphrase.
         $this->passphrase = 'joashp';
         // (Windows Phone 8) The name of our push channel.
@@ -294,11 +294,11 @@ class LocalApi extends REST_Controller {
             "user_type" => "",
             "datetime" => date("Y-m-d H:i:s a")
         );
-       
+
         $this->db->where('uuid', $uuid);
         $query = $this->db->get('gcm_registration');
         $regarraydata = $query->result_array();
-         print_r($regarraydata);
+        print_r($regarraydata);
         if ($regarraydata) {
             $this->db->set($regArray);
             $this->db->where('uuid', $uuid);
@@ -558,7 +558,16 @@ class LocalApi extends REST_Controller {
         $this->db->set($data);
         $this->db->where("id", $post_id);
         $this->db->update($tablename);
-        $this->School_model->sendNotificationToClassData($post_id, $tablename);
+
+        try {
+            $regidsmessage = $this->School_model->sendNotificationToClassData($post_id, $tablename);
+            $data = $regidsmessage["message"];
+            $this->android($data, $regidsmessage['regids']);
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
+
+
         $this->response(array("status" => "done"));
     }
 

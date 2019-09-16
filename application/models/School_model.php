@@ -320,9 +320,11 @@ class School_model extends CI_Model {
                 }
             }
         }
-        $title = "New Received";
+        $titleArray = array("class_assignment" => "Assignment", "class_notice" => "Class Notice", "class_notes" => "Study Note");
+
+        $title = isset($titleArray[$tablename]) ? "New " . $titleArray[$tablename] . " Received" : "Notification From School";
         $messageData = array('title' => $title, "message" => $classData->title);
-        return array("regids"=>$collectuserids, "message"=>$messageData);
+        return array("regids" => $collectuserids, "message" => $messageData);
     }
 
 }

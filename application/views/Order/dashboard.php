@@ -24,160 +24,11 @@ function truncate($str, $len) {
 
     <!-- begin row -->
     <div class="row">
-        <!-- begin col-3 -->
-
-        <!-- end col-3 -->
-        <!-- begin col-3 -->
-        <div class="col-md-3 col-sm-6">
-            <div class="widget widget-stats bg-blue">
-                <div class="stats-icon"><i class="fa fa-pencil-square"></i></div>
-                <div class="stats-info">
-                    <h4>Total Orders</h4>
-                    <p><?php echo count($orderslist); ?></p>	
-                </div>
-                <!--                <div class="stats-link">
-                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
-                                </div>-->
-            </div>
-        </div>
-        <!-- end col-3 -->
-        <!-- begin col-3 -->
-        <div class="col-md-3 col-sm-6">
-            <div class="widget widget-stats bg-purple">
-                <div class="stats-icon"><i class="fa fa-usd"></i></div>
-                <div class="stats-info">
-                    <h4>Total Amount</h4>
-                    <p><?php echo $total_amount; ?></p>	
-                </div>
-                <!--                <div class="stats-link">
-                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
-                                </div>-->
-            </div>
-        </div>
-        <!-- end col-3 -->
-        <!-- begin col-3 -->
-        <div class="col-md-3 col-sm-6">
-            <div class="widget widget-stats bg-red">
-                <div class="stats-icon"><i class="fa fa-users"></i></div>
-                <div class="stats-info">
-                    <h4>Registered User</h4>
-                    <p><?php echo $total_users; ?></p>	
-                </div>
-                <!--                <div class="stats-link">
-                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
-                                </div>-->
-            </div>
-        </div>
-        <!-- end col-3 -->
-        <div class="col-md-3 col-sm-6">
-            <div class="widget widget-stats bg-green">
-                <div class="stats-icon"><i class="fa fa-desktop"></i></div>
-                <div class="stats-info">
-                    <h4>TOTAL VISITORS</h4>
-                    <p>13,203</p>	
-                </div>
-                <!--                <div class="stats-link">
-                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
-                                </div>-->
-            </div>
-        </div>
-    </div>
-    <!-- end row -->
-    <!-- begin row -->
-    <div class="row">
         <!-- begin col-8 -->
         <div class="col-md-8">
 
 
 
-            <div class="" data-sortable-id="index-3">
-                <div class="panel panel-inverse" data-sortable-id="index-10">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Recent Order</h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="height-sm" data-scrollbar="true">
-
-
-                            <table id="tableDataOrder" class="table table-bordered  tableDataOrder">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 70px">S. No.</th>
-                                        <th style="width:250px">Order Information</th>
-                                        <th style="width:200px">Customer Information</th>
-
-                                        <th></th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    if (count($orderslist)) {
-                                        $count = 1;
-                                        foreach ($orderslist as $key => $value) {
-                                            ?>
-                                            <tr style="border-bottom: 1px solid #000;">
-                                                <td>
-                                                    <?php echo $count; ?>
-                                                </td>
-                                                <td>
-
-                                                    <table class="small_table">
-                                                        <tr>
-                                                            <th>Order No.</th>
-                                                            <td>: <?php echo $value->id; ?></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Guest(s)</th>
-                                                            <td>: <?php echo $value->people; ?></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Table No.</th>
-                                                            <td>: {{<?php echo $value->select_table; ?>}}</td>
-                                                        </tr>
-                                                    </table>
-
-                                                </td>
-
-                                                <td>
-
-                                                    <b> <?php echo $value->first_name . " " . $value->last_name; ?></b>
-                                                    <table class="small_table">
-                                                        <tr>
-                                                            <th><i class="fa fa-envelope"></i> &nbsp; </th>
-                                                            <td class="overtext"> <a href="#" title="<?php echo $value->email; ?>"><?php echo $value->email; ?></a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th><i class="fa fa-phone"></i>  &nbsp;</th>
-                                                            <td> <?php echo $value->contact; ?></td>
-                                                        </tr>
-
-                                                    </table>
-
-                                                </td>
-
-
-
-                                                <td>
-                                                    <a href="<?php echo site_url("order/orderdetails/" . $value->id); ?>" class="btn btn-primary btn-sm" style="    margin-top: 20%;">Update <i class="fa fa-arrow-circle-right"></i></a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $count++;
-                                        }
-                                    } else {
-                                        ?>
-                                    <h4><i class="fa fa-warning"></i> No order found</h4>
-                                    <?php
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
             <!-- begin col-4 -->
@@ -267,20 +118,7 @@ function truncate($str, $len) {
         <div class="col-md-4">
 
 
-            <div class="panel panel-inverse" data-sortable-id="index-9">
-                <div class="panel-heading">
-                    <div class="panel-heading-btn">
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                    </div>
-                    <h4 class="panel-title">World Visitors</h4>
-                </div>
-                <div class="panel-body p-0">
-                    <div id="world-map" class="height-sm width-full"></div>
-                </div>
-            </div>
+           
 
             <div class="panel panel-inverse" data-sortable-id="index-8">
                 <div class="panel-heading">

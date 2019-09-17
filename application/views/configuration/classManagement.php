@@ -18,73 +18,69 @@ $this->load->view('layout/topmenu');
 
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header"><?php echo $title; ?> <small><?php $description; ?></small></h1>
+    <h1 class="page-header">Class Management <small></small></h1>
     <!-- end page-header -->
 
     <!-- begin panel -->
+    <div class="panel panel-inverse" data-sortable-id="form-stuff-5">
+        <div class="panel-heading">
+            <h4 class="panel-title">Add Class</h4>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline" action="#" method="POST">
+                <div class="form-group m-r-10">
+                    <input type="text" name="class_name" class="form-control" id="exampleInputEmail2" placeholder="Enter Class">
+                </div>
+                <button type="submit" name="addclass" class="btn btn-sm btn-primary m-r-5">Add Class</button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-times"></i></button>
+            </form>
+        </div>
+    </div>
     <div class="panel panel-inverse">
 
         <div class="panel-body">
 
-            <div class="m-b-15">
-                <button type="button" class="btn btn-primary p-l-40 p-r-40" data-toggle="modal" data-target="#add_item"><i class="fa fa-plus"></i> Add New</button>
-            </div>
             <div class="table-responsive">
-                <table id="user" class="table table-bordered table-striped">
-                    <thead>
+                <table class="table">
+                    <tr>
+                        <th style="width:100px;">Class</th>
+                        <th>Section</th>
+                    </tr>
+                    <?php
+                    foreach ($class_data as $key => $value) {
+                        ?>
                         <tr>
-                            <?php
-                            foreach ($fields as $fkey => $fvalue) {
-                                ?> 
-                                <th style='width: <?php echo $fvalue['width']; ?>'><?php echo $fvalue['title']; ?></th>
+                            <td>
+                                <?php echo $value["title"]; ?>
+                            </td>
+                            <td>
                                 <?php
-                            }
-                            ?>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($list_data as $key => $vdata) {
-                            ?>  
-                            <tr>
-                                <?php
-                                foreach ($fields as $fkey => $fvalue) {
-                                    ?> 
-
-                                    <td>
-                                        <?php
-                                        if ($fkey == 'id') {
-                                            ?>
-                                            <?php echo $vdata[$fkey]; ?>
-
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <?php if ($fvalue['edit']) { ?>
-                                                <span  id="<?php echo $fkey; ?>" data-type="text" data-pk="<?php echo $vdata['id']; ?>" data-name="<?php echo $fkey; ?>" data-value="<?php echo $vdata[$fkey]; ?>" data-params ={'tablename':'<?php echo $table_name; ?>'} data-url="<?php echo site_url("LocalApi/updateCurd"); ?>" data-mode="inline" class="m-l-5 editable editable-click" tabindex="-1" > <?php echo $vdata[$fkey]; ?></span>
-
-                                            <?php
-                                            } else {
-                                                ?>
-
-                                                <span   class="m-l-5" tabindex="-1" > <?php echo $vdata[$fkey]; ?></span>
-                                            <?php }
-                                            ?>
-                                        </td>
-                                        <?php
-                                    }
+                                foreach ($value['section'] as $skey => $svalue) {
+                                    ?>
+                                    <div class="classsectionblock">
+                                        <span  id="<?php echo $skey; ?>" data-type="text" data-pk="<?php echo $svalue['class_id']; ?>" data-name="section_name" data-value="<?php echo $svalue['section']; ?>" data-params ={'tablename':'configuration_class'} data-url="<?php echo site_url("LocalApi/updateCurd"); ?>" data-mode="inline" class="m-l-5 editable editable-click" tabindex="-1" > <?php echo $svalue['section']; ?></span>
+                                    </div>
+                                    <?php
                                 }
                                 ?>
-                                <td>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                    </tbody>
+
+                                <form class="form-inline pull-right" action="#" method="POST" class="">
+                                    <input type="hidden" name="class_name" value="<?php echo $value["title"]; ?>">
+                                    <input type="hidden" name="class_id" value="<?php echo $value["id"]; ?>">
+                                    <div class="form-group m-r-10">
+                                        <input type="text" name="section_name" class="form-control" id="exampleInputEmail2" placeholder="Enter Section">
+                                    </div>
+                                    <button type="submit" name="addsection" class="btn btn-sm btn-primary m-r-5">Add Section</button>
+                                    <button type="button" class="btn btn-sm btn-default"><i class="fa fa-times"></i></button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </table>
+
             </div>
+
 
         </div>
     </div>
@@ -92,65 +88,7 @@ $this->load->view('layout/topmenu');
 </div>
 <!-- end #content -->
 
-<!-- Modal -->
-<div class="modal fade" id="add_item" tabindex="-1" role="dialog" aria-labelledby="changePassword">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <form action="#" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><?php echo $form_title; ?></h4>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    foreach ($form_attr as $fkey => $fvalue) {
-                        ?>
-                        <div class="form-group">
-                            <?php
-                            switch ($fvalue['type']) {
-                                case "hidden":
-                                    ?>
-                                    <input type="<?php echo $fvalue['type']; ?>" name="<?php echo $fkey; ?>" class="form-control"  required="<?php echo $fvalue['required']; ?>" placeholder="<?php echo $fvalue['place_holder']; ?>">
-                                    <?php
-                                    break;
-                                case "blue":
-                                    echo "Your favorite color is blue!";
-                                    break;
-                                case "textarea":
-                                    ?>
-                                    <label for="<?php echo $fkey; ?>"><?php echo $fvalue['title']; ?></label>
-                                    <textarea name="<?php echo $fkey; ?>" class="form-control"  required="<?php echo $fvalue['required']; ?>" placeholder="<?php echo $fvalue['place_holder']; ?>"></textarea>
 
-                                    <?php
-                                    break;
-                                default:
-                                    ?>
-                                    <label for="<?php echo $fkey; ?>"><?php echo $fvalue['title']; ?></label>
-                                    <input type="<?php echo $fvalue['type']; ?>" name="<?php echo $fkey; ?>" class="form-control"  required="<?php echo $fvalue['required']; ?>" placeholder="<?php echo $fvalue['place_holder']; ?>">
-
-                                <?php
-                            }
-                            ?>
-
-                        </div>
-                        <?php
-                    }
-                    ?>
-
-
-
-                </div>
-
-
-                <div class="modal-footer">
-                    <button type="submit" name="submitData" class="btn btn-primary">Submit</button>
-
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 

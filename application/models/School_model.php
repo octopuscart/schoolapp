@@ -9,7 +9,75 @@ class School_model extends CI_Model {
         $this->load->database();
     }
 
+    function makeUserId($usertype, $last_id) {
+        $pnum = "" . $last_id;
+        $removel = strlen($pnum) * (-1);
+        $randomno = rand(100000, 999999);
+        $randomno = "000000";
+        $substring = substr($randomno, 0, $removel);
+        $userid = $usertype . $substring . $pnum;
+        $this->db->set(array("userid" => $userid));
+        $this->db->where('id', $last_id); //set column_name and value in which row need to update
+        $this->db->update("school_user");
+    }
+
+    function removeSchoolUser($userid) {
+        $this->db->where('userid', $userid); //set column_name and value in which row need to update
+        $this->db->delete("school_user");
+    }
+
+    function getSchoolUsers($user_type) {
+        if ($user_type == 'all') {
+            
+        } else {
+            $this->db->where('user_type', $user_type);
+        }
+        $this->db->order_by('id desc');
+        $query = $this->db->get("school_user");
+        $classData = $query->result();
+        return $classData;
+    }
+
+    function getClass($class_id) {
+        $this->db->where('class_id', $class_id);
+
+        $query = $this->db->get("configuration_class");
+        $classData = $query->result();
+        return $classData;
+    }
+
+    function getClassALL() {
+        $this->db->where('class_id!=', "0");
+        $this->db->order_by('class_name');
+        $query = $this->db->get("configuration_class");
+        $classData = $query->result();
+        $classArray = array();
+        foreach ($classData as $skey => $svalue) {
+            $classArray[$svalue->id] = $svalue;
+        }
+        return $classArray;
+    }
+
     function ClassListData() {
+        $classData = $this->getClass("0");
+        $classSectionData = array();
+        foreach ($classData as $key => $value) {
+            $sectiondata = $this->getClass($value->id);
+            $sectionArray = array();
+            foreach ($sectiondata as $skey => $svalue) {
+                $sectionArray[$svalue->id] = array("class_id" => $svalue->id, "section" => $svalue->section_name);
+            }
+            $classSectionData[$value->id] = array(
+                "id" => $value->id,
+                "title" => $value->class_name,
+                "section" => $sectionArray
+            );
+        }
+        return $classSectionData;
+    }
+
+    function ClassListData2() {
+
         $classData = array(
             "1" =>
             array(

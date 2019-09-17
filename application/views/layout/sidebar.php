@@ -19,12 +19,29 @@ $classdata_menu = array(
         "Combin Data" => site_url("requestData/classAllData"),
     ),
 );
-
-
-
-
-
 array_push($menu_control, $classdata_menu);
+
+$user_menu = array(
+    "title" => "User Management",
+    "icon" => "fa fa-user",
+    "active" => "",
+    "sub_menu" => array(
+        "Teachers Management" => site_url("Configuration/schoolTeacherManagement"),
+        "Parents Management" => site_url("Configuration/schoolParentManagement"),
+        "Student Management" => site_url("Configuration/schoolStudentManagement"),
+    ),
+);
+array_push($menu_control, $user_menu);
+
+$user_menu = array(
+    "title" => "Class Management",
+    "icon" => "fa fa-sort-alpha-asc",
+    "active" => "",
+    "sub_menu" => array(
+        " Add Class / Sections" => site_url("Configuration/classManagement"),
+    ),
+);
+array_push($menu_control, $user_menu);
 
 
 $order_menu = array(
@@ -80,7 +97,6 @@ $lookbook_menu = array(
     ),
 );
 #array_push($menu_control, $lookbook_menu);
-
 //
 //$cms_menu = array(
 //    "title" => "Content Management",
@@ -139,7 +155,11 @@ $user_menu = array(
 );
 
 
-array_push($menu_control, $user_menu);
+#array_push($menu_control, $user_menu);
+
+
+
+
 
 $setting_menu = array(
     "title" => "Settings",
@@ -212,7 +232,7 @@ foreach ($menu_control as $key => $value) {
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-           
+
             <?php foreach ($menu_control as $mkey => $mvalue) { ?>
 
                 <li class="has-sub <?php echo $mvalue['active']; ?>">

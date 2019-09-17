@@ -57,9 +57,7 @@ $this->load->view('layout/topmenu');
                         <label><input type="checkbox" id="edit_toggle" /> Edit Profile Information</label>
                     </div>
                     <hr/>
-                    <div class="checkbox m-b-0">
-                        <button class="btn btn-xs btn-link" data-toggle="modal" data-target="#changePassword"><i class="fa fa-lock"></i> Change Your Password</button>
-                    </div>
+
                 </div>
                 <!-- end profile-highlight -->
             </div>
@@ -141,18 +139,14 @@ $this->load->view('layout/topmenu');
                                     <td colspan="2"></td>
                                 </tr>
 
-                                <tr class="highlight">
-                                    <td class="field">Profession</td>
-                                    <td>
-                                        <span id="profession" data-type="select" data-pk="<?php echo $userdata->id; ?>" data-name="profession" data-value="<?php echo $userdata->profession; ?>" data-url="<?php echo site_url("LocalApi/updateUserSession"); ?>" data-original-title="Select Profession" class="m-l-5 editable editable-click" tabindex="-1" > <?php echo $userdata->profession; ?></span><button class="btn btn-xs btn-link edit_detail" ><i class="fa fa-pencil"></i>Edit</button>
-                                    </td>
-                                </tr>
 
                                 <tr class="highlight">
-                                    <td class="field">Country</td>
-                                    <td>
-                                        <span id="country" data-type="select" data-pk="<?php echo $userdata->id; ?>" data-name="country" data-value="<?php echo $userdata->country; ?>" data-url="<?php echo site_url("LocalApi/updateUserSession"); ?>" data-original-title="Select Country" class="m-l-5 editable editable-click" tabindex="-1" > <?php echo $userdata->country; ?></span><button class="btn btn-xs btn-link edit_detail" ><i class="fa fa-pencil"></i>Edit</button>
+                                    <td class="field" colspan="2">
+                                        <div class="checkbox m-b-0 pull-left">
+                                            <button class="btn btn-xs btn-link" data-toggle="modal" data-target="#changePassword"><i class="fa fa-lock"></i> Change Your Password</button>
+                                        </div>
                                     </td>
+
                                 </tr>
 
 
@@ -175,31 +169,31 @@ $this->load->view('layout/topmenu');
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <form action="#" method="post">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Change Your Password</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Current Password</label>
-                    <input type="password" name="c_password" class="form-control"  required="" placeholder="Enter Your Current Password">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Change Your Password</h4>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">New Password</label>
-                    <input type="password" class="form-control" name="n_password"  required=""  placeholder="Enter Your Current Password">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Current Password</label>
+                        <input type="password" name="c_password" class="form-control"  required="" placeholder="Enter Your Current Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">New Password</label>
+                        <input type="password" class="form-control" name="n_password"  required=""  placeholder="Enter Your Current Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirm Password</label>
+                        <input type="password" class="form-control"name="r_password" required=""  placeholder="Enter Your Current Password">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Confirm Password</label>
-                    <input type="password" class="form-control"name="r_password" required=""  placeholder="Enter Your Current Password">
-                </div>
-            </div>
-            
-            
-            <div class="modal-footer">
-                <button type="submit" name="changePassword" class="btn btn-primary">Save changes</button>
 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+
+                <div class="modal-footer">
+                    <button type="submit" name="changePassword" class="btn btn-primary">Save changes</button>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </form>
         </div>
     </div>
@@ -215,22 +209,22 @@ $this->load->view('layout/footer');
 
 <script>
     $(function () {
-        <?php
-        $checklogin = $this->session->flashdata('checklogin');
-        if($checklogin['show']){
-        ?>
-        $.gritter.add({
-            title: '<?php echo $checklogin['title']; ?>',
-            text: '<?php echo $checklogin['text']; ?>',
-            image: '<?php echo base_url(); ?>assets/emoji/<?php echo $checklogin['icon']; ?>',
-            sticky: true,
-            time: '',
-            class_name: 'my-sticky-class'
-        });
-       <?php
-        }
-       ?>
-    })
+<?php
+$checklogin = $this->session->flashdata('checklogin');
+if ($checklogin['show']) {
+    ?>
+            $.gritter.add({
+                title: '<?php echo $checklogin['title']; ?>',
+                text: '<?php echo $checklogin['text']; ?>',
+                image: '<?php echo base_url(); ?>assets/emoji/<?php echo $checklogin['icon']; ?>',
+                            sticky: true,
+                            time: '',
+                            class_name: 'my-sticky-class'
+                        });
+    <?php
+}
+?>
+                })
 </script>
 
 <script>

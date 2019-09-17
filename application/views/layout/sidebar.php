@@ -16,7 +16,7 @@ $classdata_menu = array(
         "Assignments" => site_url("requestData/classAssignmentData"),
         "Class Notice" => site_url("PrequestData/classNoticeData"),
         "Class Notes" => site_url("requestData/classNoteData"),
-        "Combin Data" => site_url("requestData/classAllData"),
+        "Combine Data" => site_url("requestData/classAllData"),
     ),
 );
 array_push($menu_control, $classdata_menu);

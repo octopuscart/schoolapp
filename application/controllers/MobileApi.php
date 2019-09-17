@@ -275,7 +275,7 @@ class MobileApi extends REST_Controller {
     // news function
     function getNewsData_get() {
         $this->config->load('rest', TRUE);
-        $newsData = $this->School_model->newsData($usertype);
+        $newsData = $this->School_model->newsData();
         $this->response($newsData);
     }
 

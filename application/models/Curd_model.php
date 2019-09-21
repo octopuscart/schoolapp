@@ -32,6 +32,12 @@ class Curd_model extends CI_Model {
         $data = $query->row();
         return $data;
     }
+    
+    
+    public function delete($table, $id) {
+        $this->db->where('id', $id);
+        $query = $this->db->delete($table);
+    }
 
 }
 

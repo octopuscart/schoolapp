@@ -6,7 +6,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
         $http.get($scope.resultData.url + "/" + gbltablename).then(function (resultdata) {
             $scope.resultData.status = '0';
             $scope.resultData.list = resultdata.data;
-            
+
         }, function () {
             $scope.resultData.status = '0';
         });
@@ -47,7 +47,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
 
 
     $scope.deleteDataSingle = function (postid) {
-         $scope.deleteData(postid, gbltablename);
+        $scope.deleteData(postid, gbltablename);
     }
 
 
@@ -96,11 +96,13 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
             })
         })
     }
-
-
-
-
     $scope.getData();
+    $scope.selected = {};
+
+    $scope.detailPost = function (postobj) {
+        $("#modal-dialog").modal("show")
+        $scope.selected = postobj
+    }
 })
 
 

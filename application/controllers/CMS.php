@@ -16,32 +16,6 @@ class CMS extends CI_Controller {
         $this->user_id = $this->session->userdata('logged_in')['login_id'];
         $this->user_type = $this->session->logged_in['user_type'];
     }
-    
-    
-     function uploadFile() {
-        $config['upload_path'] = 'assets/schoolfiles';
-        $config['allowed_types'] = '*';
-        //$tableid = $this->post('file_table_id');
-        $tempfilename = rand(10000, 1000000);
-        print_r($_POST);
-        $tempfilename = "" . $tempfilename . $tableid;
-        $ext2 = explode('.', $_FILES['file']['name']);
-        $ext3 = strtolower(end($ext2));
-        $ext22 = explode('.', $tempfilename);
-        $ext33 = strtolower(end($ext22));
-        $filename = $ext22[0];
-        $file_newname = $filename . '.' . $ext3;
-        $config['file_name'] = $file_newname;
-        //Load upload library and initialize configuration
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload('file')) {
-            $uploadData = $this->upload->data();
-            print_r($uploadData);
-            // $file_newname = $uploadData['file_name'];
-            //$this->db->set('file_name', $file_newname);
-        }
-    }
 
     public function blogCategories() {
         $data = array();
@@ -113,67 +87,7 @@ class CMS extends CI_Controller {
         $this->load->view('layout/curd', $data);
     }
 
-    public function newBlog() {
-        $data = array();
-        $tag_data = $this->Curd_model->get('style_tags');
-        $tags = [];
-        foreach ($tag_data as $key => $value) {
-            array_push($tags, $value['tag_name']);
-        }
-        $data['tags'] = $tags;
 
-
-        $categories_data = $this->Curd_model->get('style_category');
-        $data['categories'] = $categories_data;
-
-        $config['upload_path'] = 'assets/blog_images';
-        $config['allowed_types'] = '*';
-        if (isset($_POST['submit_data'])) {
-            $picture = '';
-
-            if (!empty($_FILES['picture']['name'])) {
-                $temp1 = rand(100, 1000000);
-                $config['overwrite'] = TRUE;
-                $ext1 = explode('.', $_FILES['picture']['name']);
-                $ext = strtolower(end($ext1));
-                $file_newname = $temp1 . "$userid." . $ext;
-                $picture = $file_newname;
-                $config['file_name'] = $file_newname;
-                //Load upload library and initialize configuration
-                $this->load->library('upload', $config);
-                $this->upload->initialize($config);
-                if ($this->upload->do_upload('picture')) {
-                    $uploadData = $this->upload->data();
-                    $picture = $uploadData['file_name'];
-                } else {
-                    $picture = '';
-                }
-            }
-
-
-
-            $tags = implode(", ", $this->input->post("tags"));
-
-            $blogArray = array(
-                "image" => $picture,
-                "tag" => $tags,
-                "category_id" => $this->input->post("category_id"),
-                "title" => $this->input->post("title"),
-                "description" => $this->input->post("description"),
-            );
-
-            $this->Curd_model->insert('style_tips', $blogArray);
-            redirect("CMS/newBlog");
-        }
-
-        $this->load->view('CMS/blog/new_blog', $data);
-    }
-
-    function blogList() {
-        $blog_data = $this->Curd_model->get('style_tips', 'desc');
-        $data['blog_data'] = $blog_data;
-        $this->load->view('CMS/blog/blog_list', $data);
-    }
 
     function blogDetails($blog_id) {
         $data = array();
@@ -285,7 +199,6 @@ class CMS extends CI_Controller {
         $config['allowed_types'] = '*';
         if (isset($_POST['submit_data'])) {
             $picture = '';
-
             if (!empty($_FILES['picture']['name'])) {
                 $temp1 = rand(100, 1000000);
                 $config['overwrite'] = TRUE;
@@ -304,8 +217,6 @@ class CMS extends CI_Controller {
                     $picture = '';
                 }
             }
-
-
 
             #$tags = implode(", ", $this->input->post("tags"));
 
@@ -378,14 +289,6 @@ class CMS extends CI_Controller {
         $this->load->view('CMS/lookbook/lookbook_edit', $data);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     public function gallaryCategories() {
         $data = array();
         $data['title'] = "Images Categories";
@@ -518,21 +421,12 @@ class CMS extends CI_Controller {
 
             $this->db->where('id', $lb_id);
             $this->db->update('lookbook', $blogArray);
-            redirect("CMS/gallaryDetails/".$lb_id);
+            redirect("CMS/gallaryDetails/" . $lb_id);
         }
 
         $this->load->view('CMS/gallary/lookbook_edit', $data);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     public function socialLink() {
         $data = array();
         $data['title'] = "Social Link";
@@ -568,15 +462,14 @@ class CMS extends CI_Controller {
             "LinkedIn" => array("title" => "LinkedIn", "icon" => "", "display_index" => 8),
         );
         foreach ($socialLinks as $sskey => $ssvalue) {
-            
+
             $this->db->where('title', $sskey);
             $query = $this->db->get('conf_social_link');
             $systemlog = $query->result();
-            if($systemlog){
+            if ($systemlog) {
                 
-            }
-            else{
-                
+            } else {
+
                 unset($ssvalue["icon"]);
                 $this->Curd_model->insert('conf_social_link', $ssvalue);
             }
@@ -586,8 +479,8 @@ class CMS extends CI_Controller {
         $data['list_data'] = $categories_data;
 
         $fields = array(
-            "title" => array("title" => "Social Account", "width" => "200px", "edit"=>0),
-            "link_url" => array("title" => "URL", "width" => "300px", "edit"=>1),
+            "title" => array("title" => "Social Account", "width" => "200px", "edit" => 0),
+            "link_url" => array("title" => "URL", "width" => "300px", "edit" => 1),
         );
 
         $data['fields'] = $fields;
@@ -637,7 +530,7 @@ class CMS extends CI_Controller {
     public function siteSEOConfigUpdate() {
         $data = array();
         $blog_data = $this->Curd_model->get_single('configuration_site', 2);
-        
+
         $data['site_data'] = $blog_data;
         if (isset($_POST['update_data'])) {
             $blogArray = array(
@@ -653,9 +546,8 @@ class CMS extends CI_Controller {
 
         $this->load->view('configuration/site_update', $data);
     }
-    
-    
-      public function couponCode() {
+
+    public function couponCode() {
         $data = array();
         $data['title'] = "Create Coupons";
         $data['description'] = "Enter Coupon Discount In Percentage.";
@@ -691,7 +583,6 @@ class CMS extends CI_Controller {
         $data['form_attr'] = $form_attr;
         $this->load->view('layout/curd', $data);
     }
-    
 
 }
 

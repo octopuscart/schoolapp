@@ -19,25 +19,25 @@ function truncate($str, $len) {
 <script src="<?php echo base_url(); ?>assets/plugins/lightbox/js/lightbox-2.6.min.js"></script>
 
 <style>
-    .gallery .image img {
-        width: 100%;
-        height: auto; 
-        -webkit-border-radius: 3px 3px 0 0;
-        -moz-border-radius: 3px 3px 0 0;
-        border-radius: 3px 3px 0 0;
-    }
+.gallery .image img {
+    width: 100%;
+    height: auto;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
 
-    a.tag_style {
-        padding: 2px 4px;
-        background: black;
-        color: white;
-        border-radius: 6px;
-        font-size: 10px;
-    }
+a.tag_style {
+    padding: 2px 4px;
+    background: black;
+    color: white;
+    border-radius: 6px;
+    font-size: 10px;
+}
 
-    .gallery .desc {
-        margin-top: 12px;
-    }
+.gallery .desc {
+    margin-top: 12px;
+}
 </style>
 
 <!-- begin #content -->
@@ -52,7 +52,7 @@ function truncate($str, $len) {
     <h1 class="page-header">Your Blogs <small></small></h1>
     <!-- end page-header -->
 
-<!--    <div id="options" class="m-b-10">
+    <!--    <div id="options" class="m-b-10">
         <span class="gallery-option-set" id="filter" data-option-key="filter">
             <a href="#show-all" class="btn btn-default btn-xs active" data-option-value="*">
                 Show All
@@ -76,40 +76,44 @@ function truncate($str, $len) {
 
         <?php
         foreach ($blog_data as $key => $value) {
-            ?>   
-            <div class="image gallery-group-1">
-                <div class="image-inner">
-                    <a href="<?php echo base_url(); ?>assets/blog_images/<?php echo $value['image']; ?>" data-lightbox="gallery-group-1">
-                        <img src="<?php echo base_url(); ?>assets/blog_images/<?php echo $value['image']; ?>" alt="" />
-                    </a>
+            ?>
+        <div class="image gallery-group-1">
+            <div class="image-inner">
+                <a href="<?php echo base_url(); ?>assets/blog_images/<?php echo $value['image']; ?>"
+                    data-lightbox="gallery-group-1">
+                    <img src="<?php echo base_url(); ?>assets/blog_images/<?php echo $value['image']; ?>" alt="" />
+                </a>
 
-                </div>
-                <div class="image-info">
-                    <h5 class="title"><a href='<?php echo site_url('CMS/blogDetails/' . $value['id']); ?>'><?php echo truncate($value['title'], 100); ?></a></h5>
-                    <div >
-                        <?php
+            </div>
+            <div class="image-info">
+                <h5 class="title"><a
+                        href='<?php echo site_url('CMS/blogDetails/' . $value['id']); ?>'><?php echo truncate($value['title'], 100); ?></a>
+                </h5>
+                <div>
+                    <?php
                         $tags = $value['tag'];
                         $tagarray = explode(",", $tags);
 
                         foreach ($tagarray as $tkey => $tvalue) {
                             if ($tvalue) {
                                 ?>
-                                <a href="#" class="tag_style"><?php echo $tvalue; ?></a>
-                                <?php
+                    <a href="#" class="tag_style"><?php echo $tvalue; ?></a>
+                    <?php
                             }
                         }
                         ?>
-                    </div>
-
-                    <div class="desc">
-                        <?php echo truncate($value['description'], 200); ?>                
-                    </div>
-                    <hr/>
-                    <a href="<?php echo site_url('CMS/blogDetails/' . $value['id']); ?>" class="" style='margin-top: 10px;'><i class='fa fa-edit'></i> Edit</a>
-
                 </div>
+
+                <div class="desc">
+                    <?php echo truncate($value['description'], 200); ?>
+                </div>
+                <hr />
+                <a href="<?php echo site_url('CMS/blogDetails/' . $value['id']); ?>" class=""
+                    style='margin-top: 10px;'><i class='fa fa-edit'></i> Edit</a>
+
             </div>
-            <?php
+        </div>
+        <?php
         }
         ?>
 
@@ -125,103 +129,108 @@ function truncate($str, $len) {
 $this->load->view('layout/footer');
 ?>
 <script>
-    $(function () {
+$(function() {
 
 
-        function calculateDivider() {
-            var dividerValue = 4;
-            if ($(this).width() <= 480) {
-                dividerValue = 1;
-            } else if ($(this).width() <= 767) {
-                dividerValue = 2;
-            } else if ($(this).width() <= 980) {
-                dividerValue = 3;
-            }
-            return dividerValue;
+    function calculateDivider() {
+        var dividerValue = 4;
+        if ($(this).width() <= 480) {
+            dividerValue = 1;
+        } else if ($(this).width() <= 767) {
+            dividerValue = 2;
+        } else if ($(this).width() <= 980) {
+            dividerValue = 3;
         }
-        var handleIsotopesGallery = function () {
-            "use strict";
-            $(window).load(function () {
-                var container = $('#gallery');
+        return dividerValue;
+    }
+    var handleIsotopesGallery = function() {
+        "use strict";
+        $(window).load(function() {
+            var container = $('#gallery');
+            var dividerValue = calculateDivider();
+            var containerWidth = $(container).width() - 20;
+            var columnWidth = containerWidth / dividerValue;
+            $(container).isotope({
+                resizable: true,
+                masonry: {
+                    columnWidth: columnWidth
+                }
+            });
+
+            $(window).smartresize(function() {
                 var dividerValue = calculateDivider();
                 var containerWidth = $(container).width() - 20;
                 var columnWidth = containerWidth / dividerValue;
                 $(container).isotope({
-                    resizable: true,
                     masonry: {
                         columnWidth: columnWidth
                     }
                 });
-
-                $(window).smartresize(function () {
-                    var dividerValue = calculateDivider();
-                    var containerWidth = $(container).width() - 20;
-                    var columnWidth = containerWidth / dividerValue;
-                    $(container).isotope({
-                        masonry: {
-                            columnWidth: columnWidth
-                        }
-                    });
-                });
-
-                var $optionSets = $('#options .gallery-option-set'),
-                        $optionLinks = $optionSets.find('a');
-
-                $optionLinks.click(function () {
-                    var $this = $(this);
-                    if ($this.hasClass('active')) {
-                        return false;
-                    }
-                    var $optionSet = $this.parents('.gallery-option-set');
-                    $optionSet.find('.active').removeClass('active');
-                    $this.addClass('active');
-
-                    var options = {};
-                    var key = $optionSet.attr('data-option-key');
-                    var value = $this.attr('data-option-value');
-                    value = value === 'false' ? false : value;
-                    options[ key ] = value;
-                    $(container).isotope(options);
-                    return false;
-                });
             });
-        };
 
+            var $optionSets = $('#options .gallery-option-set'),
+                $optionLinks = $optionSets.find('a');
 
-        var Gallery = function () {
-            "use strict";
-            return {
-                //main function
-                init: function () {
-                    handleIsotopesGallery();
+            $optionLinks.click(function() {
+                var $this = $(this);
+                if ($this.hasClass('active')) {
+                    return false;
                 }
-            };
-        }();
+                var $optionSet = $this.parents('.gallery-option-set');
+                $optionSet.find('.active').removeClass('active');
+                $this.addClass('active');
 
-        Gallery.init();
+                var options = {};
+                var key = $optionSet.attr('data-option-key');
+                var value = $this.attr('data-option-value');
+                value = value === 'false' ? false : value;
+                options[key] = value;
+                $(container).isotope(options);
+                return false;
+            });
+        });
+    };
 
 
-<?php
-$checklogin = $this->session->flashdata('checklogin');
-if ($checklogin['show']) {
-    ?>
-            $.gritter.add({
-                title: "<?php echo $checklogin['title']; ?>",
-                text: "<?php echo $checklogin['text']; ?>",
-                image: '<?php echo base_url(); ?>assets/emoji/<?php echo $checklogin['icon']; ?>',
-                            sticky: true,
-                            time: '',
-                            class_name: 'my-sticky-class '
-                        });
-    <?php
-}
-?>
-                })
+    var Gallery = function() {
+        "use strict";
+        return {
+            //main function
+            init: function() {
+                handleIsotopesGallery();
+            }
+        };
+    }();
+
+    Gallery.init();
+
+
+    <
+    ?
+    php
+    $checklogin = $this - > session - > flashdata('checklogin');
+    if ($checklogin['show']) {
+        ?
+        >
+        $.gritter.add({
+            title: "<?php echo $checklogin['title']; ?>",
+            text: "<?php echo $checklogin['text']; ?>",
+            image: '<?php echo base_url(); ?>assets/emoji/<?php echo $checklogin['
+            icon ']; ?>',
+            sticky: true,
+            time: '',
+            class_name: 'my-sticky-class '
+        }); <
+        ?
+        php
+    } ?
+    >
+})
 </script>
 
 <script>
-    $(document).ready(function () {
+$(document).ready(function() {
 
 
-    });
+});
 </script>

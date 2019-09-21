@@ -281,7 +281,7 @@ class LocalApi extends REST_Controller {
             "unseenmessagedata" => $unseenMessage,
             "totalclassdata" => $classdatacount,
             "totalmessagedata" => $messagecount,
-            "totalunseen"=>$totalcount
+            "totalunseen" => $totalcount
         );
         $this->response($returnData);
     }
@@ -347,6 +347,32 @@ class LocalApi extends REST_Controller {
     }
 
     function classDataDelete_get($post_id, $tablename) {
+        $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
+        $this->db->where("id", $post_id);
+        $this->db->delete($tablename);
+        $this->response(array("status" => "done"));
+    }
+
+    public function tableData_get($table) {
+        $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
+        $this->db->order_by('id', "desc");
+        $query = $this->db->get($table);
+        $data = $query->result_array();
+        $this->response($data);
+    }
+
+    public function circularData_get($usertype) {
+        $this->config->load('rest', TRUE);
+        header("Access-Control-Allow-Origin: *");
+        $this->db->order_by('id', "desc");
+        $query = $this->db->get($table);
+        $data = $query->result_array();
+        $this->response($data);
+    }
+
+    public function tableDataDelete_get($post_id, $tablename) {
         $this->config->load('rest', TRUE);
         header("Access-Control-Allow-Origin: *");
         $this->db->where("id", $post_id);

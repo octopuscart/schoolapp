@@ -14,19 +14,24 @@ class Configuration extends CI_Controller {
         $this->user_type = $this->session->logged_in['user_type'];
     }
 
+  
     public function reportConfiguration() {
         $data = array();
         $this->db->order_by('id', 'desc');
         $query = $this->db->get('configuration_report');
         $systemlog = $query->row();
-        $data['configuration_report'] = $systemlog;
+  $data['configuration_report'] = $systemlog;
+
+
+  
+        
 
 
 
         if (isset($_POST['update_data'])) {
             $confArray = array(
-                "email_header" => $this->input->post("email_header"),
-                "email_footer" => $this->input->post("email_footer"),
+           "email_header" => $this->input->post("email_header"),
+          "email_footer" => $this->input->post("email_footer"),
                 "pdf_report_header" => $this->input->post("pdf_report_header"),
             );
             $this->db->update('configuration_report', $confArray);
@@ -86,11 +91,11 @@ class Configuration extends CI_Controller {
     public function schoolTeacherManagement() {
         $data = array();
         $classData = $this->School_model->getClassAll();
-        $classTecherData = $this->School_model->getSchoolUsers("teacher");
+$classTecherData = $this->School_model->getSchoolUsers("teacher");
 
         $data["class_teachers"] = $classTecherData;
         $data['class_data'] = $classData;
-        if (isset($_POST['removeuser'])) {
+if (isset($_POST['removeuser'])) {
             $userid = $this->input->post("userid");
             $this->School_model->removeSchoolUser($userid);
             redirect("Configuration/schoolTeacherManagement");
@@ -99,11 +104,11 @@ class Configuration extends CI_Controller {
         if (isset($_POST['adduser'])) {
             $classid = $this->input->post("class_id");
             $classobj = $classData[$classid];
-            $data = array(
+                       $data = array(
                 "name" => $this->input->post("name"),
                 "mobile_no" => $this->input->post("mobile_no"),
                 "email" => $this->input->post("email"),
-                "gender" => $this->input->post("gender"),
+ "gender" => $this->input->post("gender"),
                 "section" => $classobj->section_name,
                 "class" => $classobj->class_name,
                 "class_id" => $classid,

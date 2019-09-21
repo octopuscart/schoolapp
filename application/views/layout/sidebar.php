@@ -44,27 +44,27 @@ $user_menu = array(
 array_push($menu_control, $user_menu);
 
 
-$order_menu = array(
-    "title" => "Order Manegement",
-    "icon" => "fa fa-list",
+$news_menu = array(
+    "title" => "New & Events",
+    "icon" => "fa fa-file-text",
     "active" => "",
-    "sub_menu" => array(
-        "Book Now" => site_url("Order/booknow/guest"),
-        "Orders Reports" => site_url("Order/orderslist"),
-        "Order Analytics" => site_url("Order/index"),
-    ),
+    "link" => site_url("SchoolManager/newsList"),
+    "sub_menu" => array(),
 );
-#array_push($menu_control, $order_menu);
+array_push($menu_control, $news_menu);
 
-$client_menu = array(
-    "title" => "Client Manegement",
-    "icon" => "fa fa-users",
+
+$user_menu = array(
+    "title" => "Circular Management",
+    "icon" => "fa fa-user",
     "active" => "",
     "sub_menu" => array(
-        "Clients Reports" => site_url("UserManager/usersReport"),
+        "Teachers Circular" => site_url("SchoolManager/addCircular/teacher"),
+        "Parents Circular" => site_url("SchoolManager/addCircular/parent"),
+        "Student Circular" => site_url("SchoolManager/addCircular/student"),
     ),
 );
-#array_push($menu_control, $client_menu);
+array_push($menu_control, $user_menu);
 
 
 
@@ -202,10 +202,16 @@ $seo_menu = array(
 
 foreach ($menu_control as $key => $value) {
     $submenu = $value['sub_menu'];
-    foreach ($submenu as $ukey => $uvalue) {
-        if ($uvalue == current_url()) {
+    if ($submenu) {
+        foreach ($submenu as $ukey => $uvalue) {
+            if ($uvalue == current_url()) {
+                $menu_control[$key]['active'] = 'active';
+                break;
+            }
+        }
+    } else {
+        if ($menu_control[$key]['link'] == current_url()) {
             $menu_control[$key]['active'] = 'active';
-            break;
         }
     }
 }
@@ -233,24 +239,39 @@ foreach ($menu_control as $key => $value) {
         <ul class="nav">
             <li class="nav-header">Navigation</li>
 
-            <?php foreach ($menu_control as $mkey => $mvalue) { ?>
+            <?php
+            foreach ($menu_control as $mkey => $mvalue) {
+                if ($mvalue['sub_menu']) {
+                    ?>
 
-                <li class="has-sub <?php echo $mvalue['active']; ?>">
-                    <a href="javascript:;">
-                        <b class="caret pull-right"></b>  
-                        <i class="<?php echo $mvalue['icon']; ?>"></i> 
-                        <span><?php echo $mvalue['title']; ?></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <?php
-                        $submenu = $mvalue['sub_menu'];
-                        foreach ($submenu as $key => $value) {
-                            ?>
-                            <li><a href="<?php echo $value; ?>"><?php echo $key; ?></a></li>
-                        <?php } ?>
-                    </ul>
-                </li>
-            <?php } ?>
+                    <li class="has-sub <?php echo $mvalue['active']; ?>">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>  
+                            <i class="<?php echo $mvalue['icon']; ?>"></i> 
+                            <span><?php echo $mvalue['title']; ?></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <?php
+                            $submenu = $mvalue['sub_menu'];
+                            foreach ($submenu as $key => $value) {
+                                ?>
+                                <li><a href="<?php echo $value; ?>"><?php echo $key; ?></a></li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                    <?php
+                } else {
+                    ?>
+                    <li class="<?php echo $mvalue['active']; ?>">
+                        <a href="<?php echo $mvalue['link']; ?>">
+                            <i class="<?php echo $mvalue['icon']; ?>"></i> 
+                            <span><?php echo $mvalue['title']; ?></span>
+                        </a>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
             <li class="nav-header"> Admin V <?php echo PANELVERSION; ?></li>
             <li class="nav-header">-</li>
         </ul>

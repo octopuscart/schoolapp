@@ -50,12 +50,6 @@ $this->load->view('layout/topmenu');
                 </div>
                 <div class="panel-body">
 
-
-
-
-
-
-
                     <ul class="media-list media-list-with-divider listcard"  ng-repeat="data in resultData.list">
                         <li class="media media-sm" >
                             <a class="media-left" href="javascript:;">

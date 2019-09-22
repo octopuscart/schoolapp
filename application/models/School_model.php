@@ -165,6 +165,25 @@ class School_model extends CI_Model {
         for ($i = 0; $i < 15; $i++) {
             array_push($gallaryData, $tempdata);
         }
+
+        $this->db->order_by('id asc');
+        $query = $this->db->get('school_album');
+        $albumData = $query->result();
+        $gallaryData = [];
+        foreach ($albumData as $keyalbum => $album) {
+            $this->db->where('table_name', "school_album");
+            $this->db->where('table_id', $album->id);
+            $this->db->order_by('id desc');
+            $query = $this->db->get('school_files');
+            $albumImageData = $query->result();
+            $img1 = array();
+            foreach ($albumImageData as $key => $value) {
+                $img = base_url() . "assets/schoolfiles/" . $value->file_name;
+                array_push($img1, $img);
+            }
+            $album->stackimage = $img1;
+            array_push($gallaryData, $album);
+        }
         return $gallaryData;
     }
 
@@ -198,27 +217,6 @@ class School_model extends CI_Model {
         }
         $albumData->images1 = $img1;
         $albumData->images2 = $img2;
-
-
-
-        $tempdata = array(
-            "title" => "Test Album",
-            "description" => "Description Of Test News.",
-            "main_image" => base_url() . "assets/gallary/" . "1.jpg",
-            "images1" => [
-                array("img" => base_url() . "assets/gallary/" . "1.jpg", "index" => 0),
-                array("img" => base_url() . "assets/gallary/" . "2.jpg", "index" => 1),
-                array("img" => base_url() . "assets/gallary/" . "3.jpg", "index" => 2),
-                array("img" => base_url() . "assets/gallary/" . "4.jpg", "index" => 3),
-            ],
-            "images2" => [
-                array("img" => base_url() . "assets/gallary/" . "5.jpg", "index" => 4),
-                array("img" => base_url() . "assets/gallary/" . "6.jpg", "index" => 5),
-                array("img" => base_url() . "assets/gallary/" . "7.jpg", "index" => 6),
-                array("img" => base_url() . "assets/gallary/" . "8.jpg", "index" => 7),
-            ],
-            "datetime" => date("Y-m-d H:i:s a"),
-        );
         return $albumData;
     }
 

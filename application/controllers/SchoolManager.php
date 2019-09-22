@@ -200,7 +200,7 @@ class SchoolManager extends CI_Controller {
                     $this->db->update($tablename); //
                 }
             }
-            redirect("CMS/newsList");
+            redirect("SchoolManager/newsList");
         }
 
 
@@ -251,7 +251,7 @@ class SchoolManager extends CI_Controller {
                     $this->db->update($tablename); //
                 }
             }
-            redirect("CMS/newsList");
+            redirect("SchoolManager/newsList");
         }
 
 

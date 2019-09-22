@@ -177,10 +177,12 @@ class School_model extends CI_Model {
             $query = $this->db->get('school_files');
             $albumImageData = $query->result();
             $img1 = array();
+            $img = SITE_LOGO;
             foreach ($albumImageData as $key => $value) {
                 $img = base_url() . "assets/schoolfiles/" . $value->file_name;
                 array_push($img1, $img);
             }
+            $album->main_image = $img;
             $album->stackimage = $img1;
             array_push($gallaryData, $album);
         }

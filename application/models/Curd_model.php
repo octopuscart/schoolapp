@@ -25,15 +25,21 @@ class Curd_model extends CI_Model {
         $data = $query->result_array();
         return $data;
     }
-    
+
     public function get_single($table, $id) {
         $this->db->where('id', $id);
         $query = $this->db->get($table);
         $data = $query->row();
         return $data;
     }
-    
-    
+
+    public function get_perticular($table, $field, $id) {
+        $this->db->where($field, $id);
+        $query = $this->db->get($table);
+        $data = $query->result_array();
+        return $data;
+    }
+
     public function delete($table, $id) {
         $this->db->where('id', $id);
         $query = $this->db->delete($table);

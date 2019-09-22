@@ -49,11 +49,11 @@ function truncate($str, $len) {
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="javascript:;">Home</a></li>
-        <li class="active">News & Events</li>
+        <li class="active">Gallery Album</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">News & Events <small></small></h1>
+    <h1 class="page-header">Gallery Album <small></small></h1>
     <!-- end page-header -->
 
     <div id="gallery" class="gallery row">
@@ -63,7 +63,7 @@ function truncate($str, $len) {
             <div class="panel-body">
                 <form action="#" method="POST" enctype="multipart/form-data">
                     <fieldset>
-                        <legend>Add New Or Event</legend>
+                        <legend>Add Album</legend>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Title</label>
                             <input type="text" class="form-control" name="title"  placeholder="Enter Title Here">
@@ -71,24 +71,6 @@ function truncate($str, $len) {
                         <div class="form-group">
                             <label for="exampleInputPassword1">Description</label>
                             <textarea class="form-control" name="description"  placeholder="Type Description Here" rows="10"></textarea>
-                        </div>
-
-                        <div class="" style="margin-bottom: 20px;">
-
-                            <div class="btn-group" role="group" aria-label="..." style="float:left;margin-right: 10px;">
-                                <span class="btn btn-success col fileinput-button" ">
-                                    <i class="fa fa-plus"></i>
-                                    <span>Add files...</span>
-                                    <input type="file" name="file"  file-model="filemodel" accept="image/*,.pdf">
-                                </span>
-                            </div>
-
-
-                            <span style="font-size: 10px;">  Attach File From Here (PDF, JPG, PNG Allowed)</span>
-
-                            <h2 style="    font-size: 12px;">{{filemodel.name}}</h2>
-                            <input type="hidden" name="file_real_name" value="{{filemodel.name}}"/>
-
                         </div>
 
 
@@ -108,16 +90,18 @@ function truncate($str, $len) {
 
                         <li class="media media-sm" ng-repeat="data in resultData.list">
                             <a class="media-left" href="javascript:;">
-                                <img src="<?php echo base_url(); ?>assets/svgicon/newspaper.svg" alt="" class="media-object rounded-corner">
+                                <img src="<?php echo base_url(); ?>assets/svgicon/gallery.svg" alt="" class="media-object rounded-corner">
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading"> {{data.title}}</h4>
                                 <p>{{data.description}}</p>
-                                <p><a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-success m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
+                                <p>
+                                    <a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-success m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
                                         <i class="icon fa fa-paperclip" style="color: {{resultData.textcolor}};"></i> Attachment
                                     </a>
                                     <button class="btn btn-sm btn-inverse m-r-5" ng-click="detailPost(data)" ><i class="fa fa-edit"></i> Edit</button>
-                                    <button class="btn btn-sm btn-danger" ng-click="deleteDataSingle(data.id)"><i class="fa fa-trash"></i> Delete</button>
+                                    <button class="btn btn-sm btn-danger" ng-click="deleteDataTable(data.id)"><i class="fa fa-trash"></i> Delete</button>
+                                    <a href="<?php echo site_url("CMS/galleryImages/"); ?>{{data.id}}" class="btn btn-sm btn-info"><i class="fa fa-image"></i> Add Images <i class="fa fa-arrow-right"></i></a>
                                     <span class="pull-right"> <i class="fa fa-clock-o"></i>  {{data.datetime}}</span>
                                 </p>
                             </div>
@@ -140,7 +124,7 @@ function truncate($str, $len) {
                 <div class="modal-body">
                     <form action="#" method="POST" enctype="multipart/form-data">
                         <fieldset>
-                        
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Title</label>
                                 <input type="text" class="form-control" name="title"  placeholder="Enter Title Here" value="{{selected.title}}">
@@ -189,7 +173,7 @@ $this->load->view('layout/footer');
 <script>
     var gbltablename = "<?php echo $tablename; ?>";
     var gblurl = "<?php echo $geturl ?>";
-    var deleteurl = "";
+    var gbdeleteurl = "<?php echo $deleteurl; ?>";
 </script>
 
 <script src="<?php echo base_url(); ?>assets/angular/requestData.js"></script>

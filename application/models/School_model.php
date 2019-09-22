@@ -76,31 +76,6 @@ class School_model extends CI_Model {
         return $classSectionData;
     }
 
-    function ClassListData2() {
-
-        $classData = array(
-            "1" =>
-            array(
-                "id" => "1",
-                "title" => "6th",
-                "section" => array(
-                    "12" => array("class_id" => "12", "section" => "A"),
-                    "13" => array("class_id" => "13", "section" => "B")
-                ),
-            ),
-            "2" => array(
-                "id" => "2",
-                "title" => "7th",
-                "section" => [
-                    "14" => array("class_id" => "14", "section" => "A"),
-                    "15" => array("class_id" => "15", "section" => "B"),
-                    "16" => array("class_id" => "16", "section" => "C")
-                ],
-            )
-        );
-        return $classData;
-    }
-
     //
     //
     //Class Assignment, class_notice, class_note data list accroding to user id
@@ -197,6 +172,35 @@ class School_model extends CI_Model {
     //
     //Gallary by album id
     function GalleryAlbumById($albumid) {
+        $this->db->where('id', $albumid);
+        $this->db->order_by('id asc');
+        $query = $this->db->get('school_album');
+        $albumData = $query->row();
+
+        $this->db->where('table_name', "school_album");
+        $this->db->where('table_id', $albumid);
+        $this->db->order_by('id desc');
+        $query = $this->db->get('school_files');
+        $albumImageData = $query->result();
+        $img1 = array();
+        $img2 = array();
+        foreach ($albumImageData as $key => $value) {
+            $temp = array(
+                "img" => base_url() . "assets/schoolfiles/" . $value->file_name,
+                "index" => $key,
+                "id" => $value->id,
+            );
+            if ($key % 2 == 0) {
+                array_push($img1, $temp);
+            } else {
+                array_push($img2, $temp);
+            }
+        }
+        $albumData->images1 = $img1;
+        $albumData->images2 = $img2;
+
+
+
         $tempdata = array(
             "title" => "Test Album",
             "description" => "Description Of Test News.",
@@ -215,7 +219,7 @@ class School_model extends CI_Model {
             ],
             "datetime" => date("Y-m-d H:i:s a"),
         );
-        return $tempdata;
+        return $albumData;
     }
 
     //

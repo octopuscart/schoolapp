@@ -113,11 +113,12 @@ function truncate($str, $len) {
                             <div class="media-body">
                                 <h4 class="media-heading"> {{data.title}}</h4>
                                 <p>{{data.description}}</p>
-                                <p><a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-success m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
+                                <p>
+                                    <a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-success m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
                                         <i class="icon fa fa-paperclip" style="color: {{resultData.textcolor}};"></i> Attachment
                                     </a>
                                     <button class="btn btn-sm btn-inverse m-r-5" ng-click="detailPost(data)" ><i class="fa fa-edit"></i> Edit</button>
-                                    <button class="btn btn-sm btn-danger" ng-click="deleteDataSingle(data.id)"><i class="fa fa-trash"></i> Delete</button>
+                                    <button class="btn btn-sm btn-danger" ng-click="deleteDataTable(data.id)"><i class="fa fa-trash"></i> Delete</button>
                                     <span class="pull-right"> <i class="fa fa-clock-o"></i>  {{data.datetime}}</span>
                                 </p>
                             </div>
@@ -189,6 +190,7 @@ $this->load->view('layout/footer');
 <script>
     var gbltablename = "<?php echo $tablename; ?>";
     var gblurl = "<?php echo $geturl ?>";
+    var gbdeleteurl = "<?php echo $deleteurl;?>";
 </script>
 
 <script src="<?php echo base_url(); ?>assets/angular/requestData.js"></script>

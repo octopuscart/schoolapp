@@ -130,6 +130,7 @@ $this->load->view('layout/footer');
 <script>
     var gbltablename = "";
     var gblurl = "<?php echo $geturl ?>";
+    var deleteurl = "";
 </script>
 
 <script src="<?php echo base_url(); ?>assets/angular/requestData.js"></script>

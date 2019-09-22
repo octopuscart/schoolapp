@@ -46,7 +46,7 @@ array_push($menu_control, $user_menu);
 
 $news_menu = array(
     "title" => "New & Events",
-    "icon" => "fa fa-file-text",
+    "icon" => "fa fa-newspaper-o",
     "active" => "",
     "link" => site_url("SchoolManager/newsList"),
     "sub_menu" => array(),
@@ -56,7 +56,7 @@ array_push($menu_control, $news_menu);
 
 $user_menu = array(
     "title" => "Circular Management",
-    "icon" => "fa fa-user",
+    "icon" => "fa fa-file-text ",
     "active" => "",
     "sub_menu" => array(
         "Teachers Circular" => site_url("SchoolManager/addCircular/teacher"),
@@ -86,17 +86,13 @@ $blog_menu = array(
 
 
 $lookbook_menu = array(
-    "title" => "Gallary Management",
+    "title" => "Gallery Management",
     "icon" => "fa fa-image",
     "active" => "",
-    "sub_menu" => array(
-        "Categories" => site_url("CMS/gallaryCategories"),
-        "Add New" => site_url("CMS/newGallarybook"),
-        "Images List" => site_url("CMS/gallaryList"),
-//        "Tags" => site_url("CMS/blogTag"),
-    ),
+    "link"=> site_url("CMS/gallaryCategories"),
+    "sub_menu" => array(),
 );
-#array_push($menu_control, $lookbook_menu);
+array_push($menu_control, $lookbook_menu);
 //
 //$cms_menu = array(
 //    "title" => "Content Management",
@@ -263,7 +259,10 @@ foreach ($menu_control as $key => $value) {
                 } else {
                     ?>
                     <li class="<?php echo $mvalue['active']; ?>">
+              
                         <a href="<?php echo $mvalue['link']; ?>">
+                            
+                              <b class="fa fa-long-arrow-right pull-right" style="line-height: 22px;"></b>  
                             <i class="<?php echo $mvalue['icon']; ?>"></i> 
                             <span><?php echo $mvalue['title']; ?></span>
                         </a>
@@ -273,7 +272,7 @@ foreach ($menu_control as $key => $value) {
             }
             ?>
             <li class="nav-header"> Admin V <?php echo PANELVERSION; ?></li>
-            <li class="nav-header">-</li>
+   
         </ul>
         <!-- end sidebar nav -->
     </div>

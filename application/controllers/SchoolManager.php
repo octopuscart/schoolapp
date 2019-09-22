@@ -40,8 +40,10 @@ class SchoolManager extends CI_Controller {
         $data['news_data'] = $get_data;
 
         $data['tablename'] = $tablename;
-
+        
         $data["geturl"] = site_url("MobileApi/getCircularData/$usertype");
+        $data["deleteurl"] = site_url("LocalApi/classDataDelete");
+        
         if (isset($_POST['submit_data'])) {
             $insertArray = array(
                 "title" => $this->input->post("title"),

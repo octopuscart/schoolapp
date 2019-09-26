@@ -1,4 +1,4 @@
 <?php
-$activedb = "edifysn_school";
+$activedb = "ddschris_ddkschool";
 ?>
 

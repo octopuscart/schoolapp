@@ -188,6 +188,7 @@ class MobileApi extends REST_Controller {
                 "date" => date("Y-m-d"),
                 "time" => date("H:i:s a"),
             );
+            print_r($filecreate);
             $this->db->insert('school_files', $filecreate);
             $this->db->set('attachment', $file_newname);
             $this->db->where('id', $tableid); //set column_name and value in which row need to update

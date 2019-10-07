@@ -188,6 +188,8 @@ class MobileApi extends REST_Controller {
             $this->db->set('attachment', $file_newname);
             $this->db->where('id', $tableid); //set column_name and value in which row need to update
             $this->db->update($tablename); //
+            $this->response($this->post());
+            
         }
     }
 

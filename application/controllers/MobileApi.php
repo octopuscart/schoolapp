@@ -180,11 +180,10 @@ class MobileApi extends REST_Controller {
                 'table_id' => $this->post('file_table_id'),
                 "file_name" => $file_newname,
                 'file_real_name' => $this->post('name'),
-                'file_type' => $ext3,
+                'file_type' => "jpg",
                 "date" => date("Y-m-d"),
                 "time" => date("H:i:s a"),
             );
-            print_r($filecreate);
             $this->db->insert('school_files', $filecreate);
             $this->db->set('attachment', $file_newname);
             $this->db->where('id', $tableid); //set column_name and value in which row need to update

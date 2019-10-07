@@ -164,12 +164,8 @@ class MobileApi extends REST_Controller {
         $tableid = $this->post('file_table_id');
         $tempfilename = rand(10000, 1000000);
         $tempfilename = "" . $tempfilename . $tableid;
-        $ext2 = explode('.', $this->post('name'));
-        $ext3 = strtolower(end($ext2));
-        $ext22 = explode('.', $tempfilename);
-        $ext33 = strtolower(end($ext22));
-        $filename = $ext22[0];
-        $file_newname = $filename . '.' . $ext3;
+       
+        $file_newname = $tempfilename . '.jpg';
         $config['file_name'] = $file_newname;
         //Load upload library and initialize configuration
         echo $file_newname;

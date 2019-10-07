@@ -160,7 +160,7 @@ class MobileApi extends REST_Controller {
 
     function uploadFileImage_post() {
         $this->config->load('rest', TRUE);
-        $this->response(array("last_id" => $_FILES));
+        $this->response(array("last_id" => $_FILES['file']['name']));
         
     }
 

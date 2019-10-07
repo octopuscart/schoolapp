@@ -160,7 +160,7 @@ class MobileApi extends REST_Controller {
 
     function uploadFile2_post() {
        
-            $this->response($this->post());
+            $this->response($_POST);
             
         
     }

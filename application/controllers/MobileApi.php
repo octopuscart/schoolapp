@@ -159,6 +159,7 @@ class MobileApi extends REST_Controller {
     }
 
     function uploadFileImage_post() {
+        header("Access-Control-Allow-Origin: *"); 
         $this->config->load('rest', TRUE);
         $this->response(array("last_id" => $_FILES['file']['name']));
         

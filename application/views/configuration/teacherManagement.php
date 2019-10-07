@@ -58,7 +58,7 @@ $this->load->view('layout/topmenu');
                 <div class="form-group m-r-10">
                     <input type="text" name="mobile_no" class="form-control" id="exampleInputEmail2" placeholder="Mobile No.">
                 </div>
-                <button type="submit" name="adduser" class="btn btn-sm btn-primary m-r-5">Add Teacher</button>
+                <button type="submit" name="adduser" class="btn btn-sm btn-primary m-r-5">Add Student</button>
                 <button type="button" class="btn btn-sm btn-default"><i class="fa fa-times"></i></button>
             </form>
         </div>

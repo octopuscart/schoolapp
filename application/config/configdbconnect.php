@@ -3,7 +3,7 @@ require('configuration_db.php');
 $globleConnectDB = array();
 $globleConnectTheme = array("style_css"=>"");
 try {
-    $username = "ddschris_edifysn";
+    $username = "edifysn_school";
     $password = "school$#2019";
     $dbname = $activedb;
 

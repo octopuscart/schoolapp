@@ -158,6 +158,43 @@ class MobileApi extends REST_Controller {
         }
     }
 
+    function uploadFile2_post() {
+        $config['upload_path'] = 'assets/schoolfiles';
+        $config['allowed_types'] = '*';
+        $tableid = $this->post('file_table_id');
+        $tempfilename = rand(10000, 1000000);
+        $tempfilename = "" . $tempfilename . $tableid;
+        $ext2 = explode('.', $this->post('name'));
+        $ext3 = strtolower(end($ext2));
+        $ext22 = explode('.', $tempfilename);
+        $ext33 = strtolower(end($ext22));
+        $filename = $ext22[0];
+        $file_newname = $filename . '.' . $ext3;
+        $config['file_name'] = $file_newname;
+        //Load upload library and initialize configuration
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('file')) {
+            $uploadData = $this->upload->data();
+            $tableid = $this->post('file_table_id');
+            $file_newname = $uploadData['file_name'];
+            $tablename = $this->post('file_tablename');
+            $filecreate = array(
+                'table_name' => $tablename,
+                'table_id' => $this->post('file_table_id'),
+                "file_name" => $file_newname,
+                'file_real_name' => $this->post('name'),
+                'file_type' => $ext3,
+                "date" => date("Y-m-d"),
+                "time" => date("H:i:s a"),
+            );
+            $this->db->insert('school_files', $filecreate);
+            $this->db->set('attachment', $file_newname);
+            $this->db->where('id', $tableid); //set column_name and value in which row need to update
+            $this->db->update($tablename); //
+        }
+    }
+
     //Class Note Send Note Functions
     function classNotes_post() {
         $this->config->load('rest', TRUE);

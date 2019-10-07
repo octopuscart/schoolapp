@@ -171,23 +171,23 @@ class MobileApi extends REST_Controller {
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
         if ($this->upload->do_upload('file')) {
-            $uploadData = $this->upload->data();
-            $tableid = $this->post('file_table_id');
-            $file_newname = $uploadData['file_name'];
-            $tablename = $this->post('file_tablename');
-            $filecreate = array(
-                'table_name' => $tablename,
-                'table_id' => $this->post('file_table_id'),
-                "file_name" => $file_newname,
-                'file_real_name' => $this->post('name'),
-                'file_type' => "jpg",
-                "date" => date("Y-m-d"),
-                "time" => date("H:i:s a"),
-            );
-            $this->db->insert('school_files', $filecreate);
-            $this->db->set('attachment', $file_newname);
-            $this->db->where('id', $tableid); //set column_name and value in which row need to update
-            $this->db->update($tablename); //
+//            $uploadData = $this->upload->data();
+//            $tableid = $this->post('file_table_id');
+//            $file_newname = $uploadData['file_name'];
+//            $tablename = $this->post('file_tablename');
+//            $filecreate = array(
+//                'table_name' => $tablename,
+//                'table_id' => $this->post('file_table_id'),
+//                "file_name" => $file_newname,
+//                'file_real_name' => $this->post('name'),
+//                'file_type' => "jpg",
+//                "date" => date("Y-m-d"),
+//                "time" => date("H:i:s a"),
+//            );
+//            $this->db->insert('school_files', $filecreate);
+//            $this->db->set('attachment', $file_newname);
+//            $this->db->where('id', $tableid); //set column_name and value in which row need to update
+//            $this->db->update($tablename); //
             $this->response($this->post());
             
         }

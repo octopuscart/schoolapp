@@ -159,6 +159,7 @@ class MobileApi extends REST_Controller {
     }
 
     function uploadFile2_post() {
+        $this->config->load('rest', TRUE);
         $config['upload_path'] = 'assets/schoolfiles';
         $config['allowed_types'] = '*';
         $tableid = $this->post('file_table_id');

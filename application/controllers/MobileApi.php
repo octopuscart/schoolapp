@@ -160,7 +160,7 @@ class MobileApi extends REST_Controller {
 
     function uploadFileImage_post() {
         $this->config->load('rest', TRUE);
-        echo json_encode($_FILE);
+        echo json_encode($_FILES);
         
     }
 

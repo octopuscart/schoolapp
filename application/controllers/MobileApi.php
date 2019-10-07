@@ -158,14 +158,14 @@ class MobileApi extends REST_Controller {
         }
     }
 
-    function uploadFileImage_post() {
+    function uploadFileImage2_post() {
         $this->config->load('rest', TRUE);
         $config['upload_path'] = 'assets/schoolfiles';
         $config['allowed_types'] = '*';
         $tableid = $this->post('file_table_id');
         $tempfilename = rand(10000, 1000000);
         $tempfilename = "" . $tempfilename . $tableid;
-       
+
         $file_newname = $tempfilename . '.jpg';
         $config['file_name'] = $file_newname;
         //Load upload library and initialize configuration
@@ -190,8 +190,12 @@ class MobileApi extends REST_Controller {
             $this->db->where('id', $tableid); //set column_name and value in which row need to update
             $this->db->update($tablename); //
             $this->response($file_newname);
-            
         }
+    }
+
+    function uploadFileImage_post() {
+        $this->config->load('rest', TRUE);
+        $this->response(array("hello"=>$_FILES));
     }
 
     //Class Note Send Note Functions

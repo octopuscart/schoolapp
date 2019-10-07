@@ -161,7 +161,7 @@ class MobileApi extends REST_Controller {
     function uploadFile2_post() {
         $this->config->load('rest', TRUE);
         echo json_encode($_FILE);
-        }
+        
     }
 
     //Class Note Send Note Functions

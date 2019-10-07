@@ -168,8 +168,6 @@ class MobileApi extends REST_Controller {
         $file_newname = $tempfilename . '.jpg';
         $config['file_name'] = $file_newname;
         //Load upload library and initialize configuration
-        echo $file_newname;
-        print_r($this->post());
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
         if ($this->upload->do_upload('file')) {

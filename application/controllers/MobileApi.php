@@ -172,6 +172,7 @@ class MobileApi extends REST_Controller {
         $file_newname = $filename . '.' . $ext3;
         $config['file_name'] = $file_newname;
         //Load upload library and initialize configuration
+        echo $file_newname;
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
         if ($this->upload->do_upload('file')) {

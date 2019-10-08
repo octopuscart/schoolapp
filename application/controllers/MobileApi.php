@@ -195,11 +195,8 @@ class MobileApi extends REST_Controller {
 
     function uploadFileImage_post() {
         $this->config->load('rest', TRUE);
-        header('Content-type: application/json');
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET");
-        header("Access-Control-Allow-Methods: GET, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         $config['upload_path'] = 'assets/schoolfiles';
         $config['allowed_types'] = '*';
         $tableid = $this->post('file_table_id');

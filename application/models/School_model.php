@@ -97,7 +97,7 @@ class School_model extends CI_Model {
         foreach ($classnoteData as $key => $value) {
             $table_id = $value->id;
             
-            $this->db->select("concat('$filerul', file_name) as file_name");
+            $this->db->select("concat('$filerul', file_name) as file, file_name ");
             $this->db->where('table_id', $table_id);
             $this->db->where('table_name', $tablename);
             $this->db->order_by('id desc');

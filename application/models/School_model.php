@@ -92,7 +92,21 @@ class School_model extends CI_Model {
         $this->db->order_by('id desc');
         $query = $this->db->get($tablename);
         $classnoteData = $query->result();
-        return $classnoteData;
+        $classtempdata = array();
+        $filerul = base_url() . "assets/schoolfiles/";
+        foreach ($classnoteData as $key => $value) {
+            $table_id = $value->id;
+            
+            $this->db->select("concat('$filerul', file_name) as file_name");
+            $this->db->where('table_id', $table_id);
+            $this->db->where('table_name', $tablename);
+            $this->db->order_by('id desc');
+            $query = $this->db->get("school_files");
+            $classfiles = $query->result();
+            $value->files = $classfiles;
+            array_push($classtempdata, $value);
+        }
+        return $classtempdata;
     }
 
     //
@@ -117,7 +131,18 @@ class School_model extends CI_Model {
         $this->db->order_by('id desc');
         $query = $this->db->get($tablename);
         $classnoteData = $query->result();
-        return $classnoteData;
+        $classtempdata = array();
+        foreach ($classnoteData as $key => $value) {
+            $table_id = $value->id;
+            $this->db->where('table_id', $table_id);
+            $this->db->where('table_name', $tablename);
+            $this->db->order_by('id desc');
+            $query = $this->db->get("school_files");
+            $classfiles = $query->result();
+            $value->files = $classfiles;
+            array_push($classtempdata, $value);
+        }
+        return $classtempdata;
     }
 
     //

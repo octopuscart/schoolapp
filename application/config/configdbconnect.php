@@ -3,8 +3,8 @@ require('configuration_db.php');
 $globleConnectDB = array();
 $globleConnectTheme = array("style_css"=>"");
 try {
-    $username = "edifysn_school";
-    $password = "school$#2019";
+    $username = $activeusername;
+    $password = $activepassword;
     $dbname = $activedb;
 
     $conn = new PDO("mysql:host=localhost;dbname=$activedb", $username, $password);

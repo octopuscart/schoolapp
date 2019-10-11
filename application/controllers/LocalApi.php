@@ -7,7 +7,7 @@ class LocalApi extends REST_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->API_ACCESS_KEY = 'AIzaSyDuNuG8bnz6wBf5W21ZeVdVK9cIxs0lQww';
+        $this->API_ACCESS_KEY = 'AIzaSyDexvTRWYvnqy5DM1OhCpZ0u3VFlticyk4';
         // (iOS) Private key's passphrase.
         $this->passphrase = 'joashp';
         // (Windows Phone 8) The name of our push channel.

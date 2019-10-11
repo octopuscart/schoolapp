@@ -1,6 +1,6 @@
 <?php
-$activedb = "edifysn_school";
-$activeusername = "edifysn_school";
+$activedb = "school_school";
+$activeusername = "school_school";
 $activepassword = "school$#2019";
 ?>
 

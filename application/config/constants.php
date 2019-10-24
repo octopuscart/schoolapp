@@ -43,7 +43,7 @@ define('SEO_DESC', $configuration['seo_desc']);
 
 define('HEADERCSS', $globleConnectTheme['style_css']);
 
-
+define('APPROVAL_STATUS', "0");
 
 
 

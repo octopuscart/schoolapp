@@ -243,7 +243,7 @@ class MobileApi extends REST_Controller {
             'class' => $this->post('class'),
             'section' => $this->post('section'),
             'user_id' => $this->post('user_id'),
-            'status' => "0",
+            'status' => APPROVAL_STATUS,
         );
         $this->db->insert('class_notes', $class_notes);
         $last_id = $this->db->insert_id();
@@ -290,7 +290,7 @@ class MobileApi extends REST_Controller {
             'class' => $this->post('class'),
             'section' => $this->post('section'),
             'user_id' => $this->post('user_id'),
-            'status' => "0",
+            'status' => APPROVAL_STATUS,
         );
         $this->db->insert('class_assignment', $class_assignment);
         $last_id = $this->db->insert_id();
@@ -324,7 +324,7 @@ class MobileApi extends REST_Controller {
             'class' => $this->post('class'),
             'section' => $this->post('section'),
             'user_id' => $this->post('user_id'),
-            'status' => "0",
+            'status' => APPROVAL_STATUS,
         );
         $this->db->insert('class_notice', $class_notes);
         $last_id = $this->db->insert_id();
@@ -438,7 +438,7 @@ class MobileApi extends REST_Controller {
             "parent_id" => $this->post('parent_id'),
             "student_id" => $this->post('selectChild'),
             "class_id" => $this->post('class_id'),
-            "status" => "0",
+            "status" => APPROVAL_STATUS,
             "datetime" => date("Y-m-d H:i:s a"),
         );
         $this->db->insert('student_leave_request', $lrdata);
@@ -542,7 +542,7 @@ class MobileApi extends REST_Controller {
             'description' => $this->post('description'),
             "datetime" => date("Y-m-d H:i:s a"),
             'user_id' => $this->post('user_id'),
-            'status' => "0",
+            'status' => APPROVAL_STATUS,
             'reply_id' => $replyid,
         );
         $this->db->insert('school_message', $messagepost);

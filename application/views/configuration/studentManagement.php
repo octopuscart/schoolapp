@@ -72,7 +72,7 @@ $this->load->view('layout/topmenu');
                             </select>
                         </div>
 
-                        <button type="submit" name="adduser" class="btn btn-sm btn-primary m-r-5">Add Teacher</button>
+                        <button type="submit" name="adduser" class="btn btn-sm btn-primary m-r-5">Add Student</button>
                         <button type="button" class="btn btn-sm btn-default"><i class="fa fa-times"></i></button>
                     </form>
                     <?php }else{?>

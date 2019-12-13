@@ -51,6 +51,10 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
     }
 
 
+ $scope.deleteDataAll = function (postid, tablename) {
+        $scope.deleteData(postid, tablename, rootBaseUrl + "localApi/classDataDelete/" + postid + "/" + tablename);
+    }
+
     $scope.deleteData = function (postid, tablename, deleteurl) {
         Swal.fire({
             title: 'Are you sure?',
@@ -70,7 +74,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
     $scope.deleteDataTable = function (postid) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + gbltablename);
     }
-    
+
     $scope.deleteDataTable2 = function (postid, tablename) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + tablename);
     }
@@ -123,7 +127,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
 
 Admin.controller('galleryController', function ($scope, $http, $timeout, $interval) {
 
-    
+
 
 
     $scope.resultData = {"tablename": gbltablename, "url": gblurl, "status": "0", "list": []};
@@ -134,7 +138,7 @@ Admin.controller('galleryController', function ($scope, $http, $timeout, $interv
             $scope.resultData.status = '0';
             $scope.resultData.list = resultdata.data;
             $timeout(function () {
-              new CBPGridGallery(document.getElementById('gallery'));
+                new CBPGridGallery(document.getElementById('gallery'));
             }, 1000)
 
         }, function () {
@@ -181,6 +185,9 @@ Admin.controller('galleryController', function ($scope, $http, $timeout, $interv
     }
 
 
+   
+
+
 
 
     $scope.deleteData = function (postid, tablename, deleteurl) {
@@ -203,8 +210,8 @@ Admin.controller('galleryController', function ($scope, $http, $timeout, $interv
         console.log(gbdeleteurl);
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + gbltablename);
     }
-    
-     $scope.deleteDataTable2 = function (postid, tablename) {
+
+    $scope.deleteDataTable2 = function (postid, tablename) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + tablename);
     }
 

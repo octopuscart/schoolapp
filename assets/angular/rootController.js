@@ -42,12 +42,17 @@ Admin.controller('rootController', function ($scope, $http, $timeout, $interval)
         var status_url = rootBaseUrl + "localApi/ganarateNotificationForAdmin";
         $http.get(status_url).then(function (rdata) {
             var resdata = rdata.data;
-            $scope.rootData.classDataNotify = resdata.unssenclassdata;
+            var tresdata = angular.copy(rdata.data.unssenclassdata);
+
             $scope.rootData.classDataNotifyShort = resdata.unssenclassdata.splice(0, 5);
             $scope.rootData.classDataNotifyCount = resdata.totalclassdata;
             $scope.rootData.messageDataNotify = resdata.unseenmessagedata;
             $scope.rootData.messageDataNotifyShort = resdata.unseenmessagedata.splice(0, 5);
             $scope.rootData.messageDataNotifyCount = resdata.totalmessagedata;
+
+            $scope.rootData.classDataNotify = tresdata;
+
+
             var messgage = resdata.message;
             var totalnotify = resdata.totalunseen;
 

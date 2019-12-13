@@ -87,7 +87,7 @@ $this->load->view('layout/topmenu');
                                     <a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-inverse m-r-5" ng-if='data.attachment'  >
                                         <i class="icon fa fa-download" style="color: {{resultData.textcolor}};"></i> Download
                                     </a>
-                                    <button class="btn btn-sm btn-danger pull-right" ng-click="deleteData(data.id, data.tablename)"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger pull-right" ng-click="deleteDataAll(data.id, data.tablename)"><i class="fa fa-trash"></i></button>
 
                                     <button class="btn btn-sm btn-success pull-right m-r-5" ng-click="approveData(data.id, data.tablename)"><i class="fa fa-check"></i> Approve</button>
 

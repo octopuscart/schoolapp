@@ -14,7 +14,7 @@ $classdata_menu = array(
     "sub_menu" => array(
 //        "Add Product" => site_url("ProductManager/add_product"),
         "Assignments" => site_url("requestData/classAssignmentData"),
-        "Class Notice" => site_url("PrequestData/classNoticeData"),
+        "Class Notice" => site_url("requestData/classNoticeData"),
         "Class Notes" => site_url("requestData/classNoteData"),
         "Combine Data" => site_url("requestData/classAllData"),
     ),
